@@ -2,26 +2,29 @@ package chess.domain;
 
 import chess.domain.piece.Direction;
 
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Position {
 
-    private static final Map<String, Position> CACHE = new LinkedHashMap<>();
+    private static final Map<String, Position> CACHE;
 
     private final File file;
     private final Rank rank;
 
     static {
-        for (File file : File.values()) {
-            cacheAllRankWithFile(file);
-        }
+        CACHE = Arrays.stream(File.values())
+                .flatMap(Position::createPositionWithEachRank)
+                .collect(Collectors.toMap(
+                        position -> toKey(position.file, position.rank),
+                        position -> position));
     }
 
-    private static void cacheAllRankWithFile(File file) {
-        for (Rank rank : Rank.values()) {
-            CACHE.put(toKey(file, rank), new Position(file, rank));
-        }
+    private static Stream<Position> createPositionWithEachRank(File file) {
+        return Arrays.stream(Rank.values())
+                .map(rank -> new Position(file, rank));
     }
 
     private static String toKey(final File file, final Rank rank) {
