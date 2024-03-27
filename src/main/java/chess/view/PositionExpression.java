@@ -4,15 +4,12 @@ import chess.domain.File;
 import chess.domain.Position;
 import chess.domain.Rank;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PositionExpression {
 
     private static final Pattern POSITION_PATTERN = Pattern.compile("^[a-h][1-8]$");
-    private static final Map<String, Position> CACHE = new HashMap<>();
 
     private PositionExpression() {
     }
@@ -20,7 +17,7 @@ public class PositionExpression {
     public static Position mapToPosition(final String rawInput) {
         validatePositionFormat(rawInput);
 
-        return CACHE.computeIfAbsent(rawInput, PositionExpression::makePosition);
+        return parseToPosition(rawInput);
     }
 
     private static void validatePositionFormat(final String rawInput) {
@@ -32,7 +29,7 @@ public class PositionExpression {
         }
     }
 
-    private static Position makePosition(String rawInput) {
+    private static Position parseToPosition(String rawInput) {
         int fileIdx = rawInput.substring(0, 1).charAt(0) - 'a';
         int rankIdx = Integer.parseInt(rawInput.substring(1, 2)) - 1;
         File file = File.findByValue(fileIdx);
