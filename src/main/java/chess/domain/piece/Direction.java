@@ -34,14 +34,6 @@ public enum Direction {
         this.y = y;
     }
 
-    public static Set<Direction> getHorizonAndVerticals() {
-        return Set.of(LEFT, RIGHT, UP, DOWN);
-    }
-
-    public static Set<Direction> getDiagonals() {
-        return Set.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
-    }
-
     public static Direction find(final int dx, final int dy) {
         return Arrays.stream(values())
                 .filter(direction -> direction.isSameGradiant(dx, dy) && direction.isSameSign(dx, dy))
@@ -63,5 +55,13 @@ public enum Direction {
 
     private boolean isSameSign(int dx, int dy) {
         return this.x * dx >= 0 && this.y * dy >= 0;
+    }
+
+    public static Set<Direction> getHorizonAndVerticals() {
+        return Set.of(LEFT, RIGHT, UP, DOWN);
+    }
+
+    public static Set<Direction> getDiagonals() {
+        return Set.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
     }
 }
