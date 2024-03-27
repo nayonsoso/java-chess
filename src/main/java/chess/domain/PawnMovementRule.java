@@ -31,6 +31,6 @@ public class PawnMovementRule {
     }
 
     public boolean canMoveTowardDiagonal(Piece sourcePiece, Piece targetPiece, Direction direction) {
-        return PAWN_ATTACK_DIRECTIONS.contains(direction) && targetPiece.isEnemy(sourcePiece);
+        return PAWN_ATTACK_DIRECTIONS.contains(direction) && targetPiece.isOppositeColor(sourcePiece);
     }
 }

@@ -47,7 +47,7 @@ public class ChessBoard {
     }
 
     private void validateTargetNotAlly(Position source, Position target) {
-        if (chessBoard.get(source).isAlly(chessBoard.get(target))) {
+        if (chessBoard.get(source).isSameColor(chessBoard.get(target))) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
     }

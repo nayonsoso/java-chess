@@ -20,11 +20,11 @@ public abstract class Piece {
         return directions.contains(targetDirection);
     }
 
-    final public boolean isAlly(Piece piece) {
+    final public boolean isSameColor(Piece piece) {
         return this.color == piece.color;
     }
 
-    final public boolean isEnemy(Piece piece) {
+    final public boolean isOppositeColor(Piece piece) {
         if (this.color.isBlack()) {
             return piece.color.isWhite();
         }
