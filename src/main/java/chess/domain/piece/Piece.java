@@ -1,30 +1,36 @@
 package chess.domain.piece;
 
+import chess.domain.Position;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Piece {
 
-    protected final Set<Direction> directions = new HashSet<>();
+    protected final Set<Direction> movementDirections = new HashSet<>();
     protected final Color color;
 
     protected Piece(final Color color) {
         this.color = color;
     }
 
-    abstract public boolean canMoveMoreThenOnce();
+    public abstract boolean canMove(final Position source, final Position target);
 
-    abstract public boolean isPawn();
-
-    final public boolean canMoveInTargetDirection(final Direction targetDirection) {
-        return directions.contains(targetDirection);
+    public boolean canAttack(final Position source, final Position target) {
+        return canMove(source, target);
     }
 
-    final public boolean isSameColor(Piece piece) {
+    protected final boolean canMoveInDirection(final Position source, final Position target) {
+        Direction direction = source.calculateDirection(target);
+
+        return this.movementDirections.contains(direction);
+    }
+
+    public final boolean isSameColor(Piece piece) {
         return this.color == piece.color;
     }
 
-    final public boolean isOppositeColor(Piece piece) {
+    public final boolean isOppositeColor(Piece piece) {
         if (this.color.isBlack()) {
             return piece.color.isWhite();
         }

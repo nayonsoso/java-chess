@@ -1,9 +1,8 @@
 package chess.domain;
 
-import chess.domain.piece.Knight;
-import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
-import chess.domain.piece.Rook;
+import chess.domain.piece.multistep.Rook;
+import chess.domain.piece.singlestep.Knight;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
-import static chess.domain.piece.King.BLACK_KING;
-import static chess.domain.piece.Pawn.WHITE_PAWN;
-import static chess.domain.piece.Queen.BLACK_QUEEN;
-import static chess.domain.piece.Rook.BLACK_ROOK;
-import static chess.domain.piece.Rook.WHITE_ROOK;
+import static chess.domain.piece.multistep.Queen.BLACK_QUEEN;
+import static chess.domain.piece.multistep.Rook.BLACK_ROOK;
+import static chess.domain.piece.multistep.Rook.WHITE_ROOK;
+import static chess.domain.piece.pawn.BlackPawn.BLACK_PAWN;
+import static chess.domain.piece.pawn.WhitePawn.WHITE_PAWN;
+import static chess.domain.piece.singlestep.King.BLACK_KING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -55,13 +55,13 @@ class ChessBoardTest {
         assertThat(pieceAtSourcePositionAfterMove).isEqualTo(EMPTY_PIECE);
     }
 
-    @DisplayName("제자리로 이동하려는 경우 예외기 발생한다.")
+    @DisplayName("제자리로 이동하려는 경우 예외가 발생한다.")
     @Test
     void canNotMoveToSamePosition() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.B, Rank.TWO);
-        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        positionPiece.put(sourcePosition, BLACK_PAWN);
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, sourcePosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -75,8 +75,8 @@ class ChessBoardTest {
         Position sourcePosition = Position.of(File.A, Rank.ONE);
         positionPiece.put(sourcePosition, EMPTY_PIECE);
         Position targetPosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(targetPosition, Pawn.BLACK_PAWN);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        positionPiece.put(targetPosition, BLACK_PAWN);
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -90,8 +90,8 @@ class ChessBoardTest {
         Position sourcePosition = Position.of(File.A, Rank.ONE);
         positionPiece.put(sourcePosition, BLACK_KING);
         Position targetPosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(targetPosition, Pawn.BLACK_PAWN);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        positionPiece.put(targetPosition, BLACK_PAWN);
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isExactlyInstanceOf(IllegalArgumentException.class)
@@ -106,11 +106,11 @@ class ChessBoardTest {
         positionPiece.put(sourcePosition, BLACK_KING);
         Position targetPosition = Position.of(File.A, Rank.THREE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isExactlyInstanceOf(IllegalArgumentException.class)
-                .hasMessage("선택한 기물은 해당 위치에 도달할 수 없습니다.");
+                .hasMessage("선택한 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -120,10 +120,10 @@ class ChessBoardTest {
         Position sourcePosition = Position.of(File.A, Rank.ONE);
         positionPiece.put(sourcePosition, BLACK_ROOK);
         Position obstaclePosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(obstaclePosition, Pawn.BLACK_PAWN);
+        positionPiece.put(obstaclePosition, BLACK_PAWN);
         Position targetPosition = Position.of(File.A, Rank.THREE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -137,10 +137,10 @@ class ChessBoardTest {
         Position sourcePosition = Position.of(File.A, Rank.ONE);
         positionPiece.put(sourcePosition, Knight.BLACK_KNIGHT);
         Position obstaclePosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(obstaclePosition, Pawn.BLACK_PAWN);
+        positionPiece.put(obstaclePosition, BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.THREE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .doesNotThrowAnyException();
@@ -154,11 +154,11 @@ class ChessBoardTest {
         positionPiece.put(sourcePosition, BLACK_ROOK);
         Position targetPosition = Position.of(File.C, Rank.THREE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isExactlyInstanceOf(IllegalArgumentException.class)
-                .hasMessage("선택한 기물이 이동할 수 없는 방향입니다.");
+                .hasMessage("선택한 위치로 이동할 수 없습니다.");
     }
 
     @Test
@@ -172,7 +172,7 @@ class ChessBoardTest {
         Rook targetPiece = WHITE_ROOK;
         positionPiece.put(targetPosition, targetPiece);
         positionPiece.put(Position.of(File.A, Rank.TWO), EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         chessBoard.move(sourcePosition, targetPosition);
 
@@ -188,7 +188,7 @@ class ChessBoardTest {
         positionPiece.put(sourcePosition, BLACK_QUEEN);
         Position targetPosition = Position.of(File.A, Rank.EIGHT);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .doesNotThrowAnyException();
@@ -199,12 +199,12 @@ class ChessBoardTest {
     void pawnCanMoveTwiceIfFirstMove() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
+        positionPiece.put(sourcePosition, BLACK_PAWN);
         Position blankPosition = Position.of(File.A, Rank.SIX);
         positionPiece.put(blankPosition, EMPTY_PIECE);
         Position targetPosition = Position.of(File.A, Rank.FIVE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .doesNotThrowAnyException();
@@ -215,10 +215,10 @@ class ChessBoardTest {
     void pawnCanMoveDiagonalIfEnemyThere() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
+        positionPiece.put(sourcePosition, BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.SIX);
         positionPiece.put(targetPosition, WHITE_PAWN);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .doesNotThrowAnyException();
@@ -232,11 +232,11 @@ class ChessBoardTest {
         positionPiece.put(sourcePosition, WHITE_PAWN);
         Position targetPosition = Position.of(File.A, Rank.FIVE);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("폰은 해당 위치에 도달할 수 없습니다.");
+                .hasMessage("선택한 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("폰의 대각선에 적이 없음에도 대각선으로 이동하려 하면, 예외가 발생한다.")
@@ -244,13 +244,13 @@ class ChessBoardTest {
     void pawnCanNotMoveDiagonalIfThereIsNoEnemy() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
+        positionPiece.put(sourcePosition, BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.SIX);
         positionPiece.put(targetPosition, EMPTY_PIECE);
-        ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
+        ChessBoard chessBoard = new ChessBoard(positionPiece);
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("폰은 해당 위치에 도달할 수 없습니다.");
+                .hasMessage("선택한 위치로 이동할 수 없습니다.");
     }
 }

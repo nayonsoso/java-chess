@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static chess.domain.piece.Bishop.BLACK_BISHOP;
-import static chess.domain.piece.Bishop.WHITE_BISHOP;
 import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
-import static chess.domain.piece.King.BLACK_KING;
-import static chess.domain.piece.King.WHITE_KING;
-import static chess.domain.piece.Knight.BLACK_KNIGHT;
-import static chess.domain.piece.Knight.WHITE_KNIGHT;
-import static chess.domain.piece.Pawn.BLACK_PAWN;
-import static chess.domain.piece.Pawn.WHITE_PAWN;
-import static chess.domain.piece.Queen.BLACK_QUEEN;
-import static chess.domain.piece.Queen.WHITE_QUEEN;
-import static chess.domain.piece.Rook.BLACK_ROOK;
-import static chess.domain.piece.Rook.WHITE_ROOK;
+import static chess.domain.piece.multistep.Bishop.BLACK_BISHOP;
+import static chess.domain.piece.multistep.Bishop.WHITE_BISHOP;
+import static chess.domain.piece.multistep.Queen.BLACK_QUEEN;
+import static chess.domain.piece.multistep.Queen.WHITE_QUEEN;
+import static chess.domain.piece.multistep.Rook.BLACK_ROOK;
+import static chess.domain.piece.multistep.Rook.WHITE_ROOK;
+import static chess.domain.piece.pawn.BlackPawn.BLACK_PAWN;
+import static chess.domain.piece.pawn.WhitePawn.WHITE_PAWN;
+import static chess.domain.piece.singlestep.King.BLACK_KING;
+import static chess.domain.piece.singlestep.King.WHITE_KING;
+import static chess.domain.piece.singlestep.Knight.BLACK_KNIGHT;
+import static chess.domain.piece.singlestep.Knight.WHITE_KNIGHT;
 
 public record ChessBoardDto(String chessBoardExpression) {
 

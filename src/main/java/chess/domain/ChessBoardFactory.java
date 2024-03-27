@@ -1,22 +1,23 @@
 package chess.domain;
 
 import chess.domain.piece.EmptyPiece;
-import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static chess.domain.piece.Bishop.BLACK_BISHOP;
-import static chess.domain.piece.Bishop.WHITE_BISHOP;
-import static chess.domain.piece.King.BLACK_KING;
-import static chess.domain.piece.King.WHITE_KING;
-import static chess.domain.piece.Knight.BLACK_KNIGHT;
-import static chess.domain.piece.Knight.WHITE_KNIGHT;
-import static chess.domain.piece.Queen.BLACK_QUEEN;
-import static chess.domain.piece.Queen.WHITE_QUEEN;
-import static chess.domain.piece.Rook.BLACK_ROOK;
-import static chess.domain.piece.Rook.WHITE_ROOK;
+import static chess.domain.piece.multistep.Bishop.BLACK_BISHOP;
+import static chess.domain.piece.multistep.Bishop.WHITE_BISHOP;
+import static chess.domain.piece.multistep.Queen.BLACK_QUEEN;
+import static chess.domain.piece.multistep.Queen.WHITE_QUEEN;
+import static chess.domain.piece.multistep.Rook.BLACK_ROOK;
+import static chess.domain.piece.multistep.Rook.WHITE_ROOK;
+import static chess.domain.piece.pawn.BlackPawn.BLACK_PAWN;
+import static chess.domain.piece.pawn.WhitePawn.WHITE_PAWN;
+import static chess.domain.piece.singlestep.King.BLACK_KING;
+import static chess.domain.piece.singlestep.King.WHITE_KING;
+import static chess.domain.piece.singlestep.Knight.BLACK_KNIGHT;
+import static chess.domain.piece.singlestep.Knight.WHITE_KNIGHT;
 
 public class ChessBoardFactory {
 
@@ -31,7 +32,7 @@ public class ChessBoardFactory {
         chessBoard.putAll(makeWhitePawns());
         chessBoard.putAll(makeWhitePiecesExceptPawn());
 
-        return new ChessBoard(chessBoard, new PawnMovementRule());
+        return new ChessBoard(chessBoard);
     }
 
     private static Map<Position, Piece> makeBlackPiecesExceptPawn() {
@@ -52,7 +53,7 @@ public class ChessBoardFactory {
         Map<Position, Piece> blackPawns = new LinkedHashMap<>();
         File[] files = File.values();
         for (File file : files) {
-            blackPawns.put(Position.of(file, Rank.SEVEN), Pawn.BLACK_PAWN);
+            blackPawns.put(Position.of(file, Rank.SEVEN), BLACK_PAWN);
         }
 
         return blackPawns;
@@ -82,7 +83,7 @@ public class ChessBoardFactory {
         Map<Position, Piece> whitePawns = new LinkedHashMap<>();
         File[] files = File.values();
         for (File file : files) {
-            whitePawns.put(Position.of(file, Rank.TWO), Pawn.WHITE_PAWN);
+            whitePawns.put(Position.of(file, Rank.TWO), WHITE_PAWN);
         }
 
         return whitePawns;

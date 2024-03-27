@@ -31,14 +31,14 @@ class PositionTest {
                 Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_DOWN, Position.of(File.C, Rank.FOUR)),
                 Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_UP, Position.of(File.E, Rank.SIX)),
                 Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_DOWN, Position.of(File.E, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_LEFT_UP, Position.of(File.B, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_LEFT_DOWN, Position.of(File.B, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_RIGHT_UP, Position.of(File.F, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_RIGHT_DOWN, Position.of(File.F, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_UP_LEFT, Position.of(File.C, Rank.SEVEN)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_UP_RIGHT, Position.of(File.E, Rank.SEVEN)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_DOWN_LEFT, Position.of(File.C, Rank.THREE)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.KNIGHT_DOWN_RIGHT, Position.of(File.E, Rank.THREE))
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_LEFT_UP, Position.of(File.B, Rank.SIX)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_LEFT_DOWN, Position.of(File.B, Rank.FOUR)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_RIGHT_UP, Position.of(File.F, Rank.SIX)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_RIGHT_DOWN, Position.of(File.F, Rank.FOUR)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_UP_UP, Position.of(File.C, Rank.SEVEN)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_UP_UP, Position.of(File.E, Rank.SEVEN)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_DOWN_DOWN, Position.of(File.C, Rank.THREE)),
+                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_DOWN_DOWN, Position.of(File.E, Rank.THREE))
         );
     }
 }

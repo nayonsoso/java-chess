@@ -1,5 +1,7 @@
 package chess.domain.piece;
 
+import chess.domain.Position;
+
 public class EmptyPiece extends Piece {
 
     public static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
@@ -9,12 +11,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public boolean canMoveMoreThenOnce() {
-        return false;
-    }
-
-    @Override
-    public boolean isPawn() {
+    public boolean canMove(Position source, Position target) {
         return false;
     }
 }

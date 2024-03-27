@@ -10,35 +10,25 @@ import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
 public class ChessBoard {
 
     private final Map<Position, Piece> chessBoard;
-    private final PawnMovementRule pawnMovementRule;
 
-    public ChessBoard(final Map<Position, Piece> chessBoard, PawnMovementRule pawnMovementRule) {
+    public ChessBoard(final Map<Position, Piece> chessBoard) {
         this.chessBoard = chessBoard;
-        this.pawnMovementRule = pawnMovementRule;
     }
 
     public void move(final Position sourcePosition, final Position targetPosition) {
+        validateCommonRule(sourcePosition, targetPosition);
         validateCanMove(sourcePosition, targetPosition);
+        validateReachedTarget(sourcePosition, targetPosition);
 
         Piece sourcePiece = chessBoard.get(sourcePosition);
         chessBoard.put(targetPosition, sourcePiece);
         chessBoard.put(sourcePosition, EMPTY_PIECE);
     }
 
-    private void validateCanMove(Position sourcePosition, Position targetPosition) {
+    private void validateCommonRule(Position sourcePosition, Position targetPosition) {
         validateNotSourceItSelf(sourcePosition, targetPosition);
         validateSourcePositionNotEmpty(sourcePosition);
         validateTargetNotAlly(sourcePosition, targetPosition);
-
-        if (chessBoard.get(sourcePosition).isPawn()) {
-            validatePawnCanMove(sourcePosition, targetPosition);
-            return;
-        }
-        Piece sourcePiece = chessBoard.get(sourcePosition);
-        Direction direction = sourcePosition.calculateDirection(targetPosition);
-        validateValidDirection(sourcePiece, direction);
-        Position reachedPosition = moveUntilTargetOrMeetSomeThing(sourcePosition, targetPosition, direction);
-        validateReachedTarget(targetPosition, reachedPosition);
     }
 
     private void validateNotSourceItSelf(Position sourcePosition, Position targetPosition) {
@@ -59,56 +49,46 @@ public class ChessBoard {
         }
     }
 
-    private void validatePawnCanMove(Position sourcePosition, Position targetPosition) {
-        Direction direction = sourcePosition.calculateDirection(targetPosition);
+    private void validateCanMove(Position sourcePosition, Position targetPosition) {
         Piece sourcePiece = chessBoard.get(sourcePosition);
         Piece targetPiece = chessBoard.get(targetPosition);
-
-        if (sourcePiece.canMoveInTargetDirection(direction)) {
-            validatePawnCanMoveForward(sourcePosition, targetPosition, direction);
+        if (sourcePiece.isOppositeColor(targetPiece)) {
+            validateCanAttack(sourcePosition, targetPosition);
             return;
         }
 
-        validatePawnCanMoveDiagonal(direction, sourcePiece, targetPiece);
-    }
-
-    private void validatePawnCanMoveForward(Position sourcePosition, Position targetPosition, Direction direction) {
-        boolean canReachTargetWhenMoveForward = pawnMovementRule.canReachTargetWhenMoveForward(sourcePosition, targetPosition, direction);
-
-        if (!(canReachTargetWhenMoveForward)) {
-            throw new IllegalArgumentException("폰은 해당 위치에 도달할 수 없습니다.");
+        boolean canMove = sourcePiece.canMove(sourcePosition, targetPosition);
+        if (!canMove) {
+            throw new IllegalArgumentException("선택한 위치로 이동할 수 없습니다.");
         }
     }
 
-    private void validatePawnCanMoveDiagonal(Direction direction, Piece sourcePiece, Piece targetPiece) {
-        boolean canMoveTowardDiagonal = pawnMovementRule.canMoveTowardDiagonal(sourcePiece, targetPiece, direction);
+    private void validateCanAttack(Position sourcePosition, Position targetPosition) {
+        Piece sourcePiece = chessBoard.get(sourcePosition);
+        boolean canAttack = sourcePiece.canAttack(sourcePosition, targetPosition);
 
-        if (!canMoveTowardDiagonal) {
-            throw new IllegalArgumentException("폰은 해당 위치에 도달할 수 없습니다.");
+        if (!canAttack) {
+            throw new IllegalArgumentException("선택한 위치로 이동할 수 없습니다.");
         }
     }
 
-    private void validateValidDirection(final Piece piece, final Direction direction) {
-        if (!piece.canMoveInTargetDirection(direction)) {
-            throw new IllegalArgumentException("선택한 기물이 이동할 수 없는 방향입니다.");
+    private void validateReachedTarget(Position sourcePosition, Position targetPosition) {
+        Direction direction = sourcePosition.calculateDirection(targetPosition);
+        Position reachedPosition = moveUntilTargetOrMeetSomeThing(sourcePosition, targetPosition, direction);
+
+        if (!reachedPosition.equals(targetPosition)) {
+            throw new IllegalArgumentException("선택한 기물은 해당 위치에 도달할 수 없습니다.");
         }
     }
 
     private Position moveUntilTargetOrMeetSomeThing(Position sourcePosition, Position targetPosition, Direction direction) {
         Position nextPosition = sourcePosition.moveTowardDirection(direction);
-        while (chessBoard.get(sourcePosition).canMoveMoreThenOnce() &&
-                !nextPosition.equals(targetPosition) &&
+        while (!nextPosition.equals(targetPosition) &&
                 chessBoard.get(nextPosition) == EMPTY_PIECE) {
             nextPosition = nextPosition.moveTowardDirection(direction);
         }
 
         return nextPosition;
-    }
-
-    private void validateReachedTarget(Position targetPosition, Position nextPosition) {
-        if (!nextPosition.equals(targetPosition)) {
-            throw new IllegalArgumentException("선택한 기물은 해당 위치에 도달할 수 없습니다.");
-        }
     }
 
     public Piece findPieceByPosition(final Position position) {

@@ -46,9 +46,9 @@ public class Position {
     }
 
     public Position moveTowardDirection(final Direction direction) {
-        File file = direction.moveFile(this.file);
-        Rank rank = direction.moveRank(this.rank);
-        return Position.of(file, rank);
+        File fileAfterMove = direction.moveFile(this.file);
+        Rank rankAfterMove = direction.moveRank(this.rank);
+        return Position.of(fileAfterMove, rankAfterMove);
     }
 
     public Direction calculateDirection(final Position target) {
@@ -58,5 +58,9 @@ public class Position {
         int dy = targetRank.calculateDifference(this.rank);
 
         return Direction.find(dx, dy);
+    }
+
+    public boolean isAtRank(Rank rank) {
+        return this.rank == rank;
     }
 }
