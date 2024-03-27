@@ -6,9 +6,9 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public CommandExpression readCommand() {
+    public CommandDto readCommand() {
         String rawInput = scanner.nextLine();
 
-        return CommandExpression.of(rawInput);
+        return CommandDto.of(rawInput);
     }
 }

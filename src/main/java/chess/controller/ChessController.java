@@ -2,8 +2,9 @@ package chess.controller;
 
 import chess.domain.ChessBoard;
 import chess.domain.ChessBoardFactory;
+import chess.domain.Command;
 import chess.domain.Position;
-import chess.view.CommandExpression;
+import chess.view.CommandDto;
 import chess.view.InputView;
 import chess.view.OutputView;
 
@@ -22,30 +23,30 @@ public class ChessController {
     public void run() {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
         outputView.printCommandInformation();
-        CommandExpression commandExpression = inputView.readCommand();
+        Command command = readCommand();
 
-        if (commandExpression.isStart()) {
+        if (command.isStart()) {
             outputView.printChessBoard(chessBoard);
             repeat(chessBoard, this::startGame);
         }
     }
 
     private void startGame(final ChessBoard chessBoard) {
-        CommandExpression commandExpression = inputView.readCommand();
+        Command command = readCommand();
 
-        while (commandExpression.isMove()) {
-            Position source = commandExpression.getSourcePosition();
-            Position target = commandExpression.getTargetPosition();
+        while (command.isMove()) {
+            Position source = command.getSourcePosition();
+            Position target = command.getTargetPosition();
             chessBoard.move(source, target);
             outputView.printChessBoard(chessBoard);
-            commandExpression = inputView.readCommand();
+            command = readCommand();
         }
 
-        validateStartDuplicate(commandExpression);
+        validateStartDuplicate(command);
     }
 
-    private void validateStartDuplicate(CommandExpression commandExpression) {
-        if (commandExpression.isStart()) {
+    private void validateStartDuplicate(Command command) {
+        if (command.isStart()) {
             throw new IllegalArgumentException("게임 도중에는 start 명령어를 입력할 수 없습니다.");
         }
     }
@@ -57,5 +58,10 @@ public class ChessController {
             outputView.printErrorMessage(e.getMessage());
             repeat(chessBoard, consumer);
         }
+    }
+
+    private Command readCommand() {
+        CommandDto commandDto = inputView.readCommand();
+        return Command.of(commandDto);
     }
 }
