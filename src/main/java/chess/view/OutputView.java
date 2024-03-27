@@ -1,10 +1,5 @@
 package chess.view;
 
-import chess.domain.ChessBoard;
-import chess.domain.piece.Piece;
-
-import java.util.List;
-
 public class OutputView {
 
     private static final String ERROR_PREFIX = "[ERROR]";
@@ -16,9 +11,8 @@ public class OutputView {
                 + "> 게임 이동 : move source위치 target위치 - 예. move b2 b3");
     }
 
-    public void printChessBoard(final ChessBoard chessBoard) {
-        List<Piece> pieces = chessBoard.findAllPieces();
-        String chessBoardExpression = ChessBoardExpression.toExpression(pieces);
+    public void printChessBoard(final ChessBoardDto chessBoardDto) {
+        String chessBoardExpression = chessBoardDto.chessBoardExpression();
         System.out.println(chessBoardExpression);
     }
 

@@ -4,6 +4,7 @@ import chess.domain.ChessBoard;
 import chess.domain.ChessBoardFactory;
 import chess.domain.Command;
 import chess.domain.Position;
+import chess.view.ChessBoardDto;
 import chess.view.CommandDto;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -26,7 +27,7 @@ public class ChessController {
         Command command = readCommand();
 
         if (command.isStart()) {
-            outputView.printChessBoard(chessBoard);
+            printChessBoard(chessBoard);
             repeat(chessBoard, this::startGame);
         }
     }
@@ -38,7 +39,7 @@ public class ChessController {
             Position source = command.getSourcePosition();
             Position target = command.getTargetPosition();
             chessBoard.move(source, target);
-            outputView.printChessBoard(chessBoard);
+            printChessBoard(chessBoard);
             command = readCommand();
         }
 
@@ -51,6 +52,16 @@ public class ChessController {
         }
     }
 
+    private Command readCommand() {
+        CommandDto commandDto = inputView.readCommand();
+        return Command.of(commandDto);
+    }
+
+    private void printChessBoard(ChessBoard chessBoard) {
+        ChessBoardDto chessBoardDto = ChessBoardDto.of(chessBoard);
+        outputView.printChessBoard(chessBoardDto);
+    }
+
     private void repeat(final ChessBoard chessBoard, final Consumer<ChessBoard> consumer) {
         try {
             consumer.accept(chessBoard);
@@ -58,10 +69,5 @@ public class ChessController {
             outputView.printErrorMessage(e.getMessage());
             repeat(chessBoard, consumer);
         }
-    }
-
-    private Command readCommand() {
-        CommandDto commandDto = inputView.readCommand();
-        return Command.of(commandDto);
     }
 }

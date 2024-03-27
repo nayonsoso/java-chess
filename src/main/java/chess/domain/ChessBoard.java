@@ -4,7 +4,6 @@ import chess.domain.piece.Direction;
 import chess.domain.piece.EmptyPiece;
 import chess.domain.piece.Piece;
 
-import java.util.List;
 import java.util.Map;
 
 public class ChessBoard {
@@ -15,16 +14,6 @@ public class ChessBoard {
     public ChessBoard(final Map<Position, Piece> chessBoard, PawnMovementRule pawnMovementRule) {
         this.chessBoard = chessBoard;
         this.pawnMovementRule = pawnMovementRule;
-    }
-
-    public List<Piece> findAllPieces() {
-        return chessBoard.values()
-                .stream()
-                .toList();
-    }
-
-    public Piece findPieceByPosition(final Position position) {
-        return chessBoard.get(position);
     }
 
     public void move(final Position sourcePosition, final Position targetPosition) {
@@ -119,5 +108,13 @@ public class ChessBoard {
         if (!nextPosition.equals(targetPosition)) {
             throw new IllegalArgumentException("선택한 기물은 해당 위치에 도달할 수 없습니다.");
         }
+    }
+
+    public Piece findPieceByPosition(final Position position) {
+        return chessBoard.get(position);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return this.chessBoard;
     }
 }
