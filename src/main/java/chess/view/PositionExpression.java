@@ -35,8 +35,8 @@ public class PositionExpression {
     private static Position makePosition(String rawInput) {
         int fileIdx = rawInput.substring(0, 1).charAt(0) - 'a';
         int rankIdx = Integer.parseInt(rawInput.substring(1, 2)) - 1;
-        File file = File.values()[fileIdx];
-        Rank rank = Rank.values()[rankIdx];
+        File file = File.findByValue(fileIdx);
+        Rank rank = Rank.findByValue(rankIdx);
 
         return Position.of(file, rank);
     }
