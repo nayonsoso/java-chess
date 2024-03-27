@@ -2,14 +2,10 @@ package chess.domain.piece;
 
 public class EmptyPiece extends Piece {
 
-    private static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
+    public static final EmptyPiece EMPTY_PIECE = new EmptyPiece();
 
     private EmptyPiece() {
         super(Color.EMPTY);
-    }
-
-    public static EmptyPiece of() {
-        return EMPTY_PIECE;
     }
 
     @Override

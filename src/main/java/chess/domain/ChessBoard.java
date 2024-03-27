@@ -1,10 +1,11 @@
 package chess.domain;
 
 import chess.domain.piece.Direction;
-import chess.domain.piece.EmptyPiece;
 import chess.domain.piece.Piece;
 
 import java.util.Map;
+
+import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
 
 public class ChessBoard {
 
@@ -21,7 +22,7 @@ public class ChessBoard {
 
         Piece sourcePiece = chessBoard.get(sourcePosition);
         chessBoard.put(targetPosition, sourcePiece);
-        chessBoard.put(sourcePosition, EmptyPiece.of());
+        chessBoard.put(sourcePosition, EMPTY_PIECE);
     }
 
     private void validateCanMove(Position sourcePosition, Position targetPosition) {
@@ -53,7 +54,7 @@ public class ChessBoard {
     }
 
     private void validateSourcePositionNotEmpty(Position position) {
-        if (chessBoard.get(position).equals(EmptyPiece.of())) {
+        if (chessBoard.get(position).equals(EMPTY_PIECE)) {
             throw new IllegalArgumentException("비어있는 곳에서는 기물을 움직일 수 없습니다.");
         }
     }
@@ -97,7 +98,7 @@ public class ChessBoard {
         Position nextPosition = sourcePosition.moveTowardDirection(direction);
         while (chessBoard.get(sourcePosition).canMoveMoreThenOnce() &&
                 !nextPosition.equals(targetPosition) &&
-                chessBoard.get(nextPosition) == EmptyPiece.of()) {
+                chessBoard.get(nextPosition) == EMPTY_PIECE) {
             nextPosition = nextPosition.moveTowardDirection(direction);
         }
 

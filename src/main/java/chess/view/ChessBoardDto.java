@@ -2,33 +2,44 @@ package chess.view;
 
 import chess.domain.ChessBoard;
 import chess.domain.Position;
-import chess.domain.piece.*;
+import chess.domain.piece.Piece;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static chess.domain.piece.Color.BLACK;
-import static chess.domain.piece.Color.WHITE;
+import static chess.domain.piece.Bishop.BLACK_BISHOP;
+import static chess.domain.piece.Bishop.WHITE_BISHOP;
+import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
+import static chess.domain.piece.King.BLACK_KING;
+import static chess.domain.piece.King.WHITE_KING;
+import static chess.domain.piece.Knight.BLACK_KNIGHT;
+import static chess.domain.piece.Knight.WHITE_KNIGHT;
+import static chess.domain.piece.Pawn.BLACK_PAWN;
+import static chess.domain.piece.Pawn.WHITE_PAWN;
+import static chess.domain.piece.Queen.BLACK_QUEEN;
+import static chess.domain.piece.Queen.WHITE_QUEEN;
+import static chess.domain.piece.Rook.BLACK_ROOK;
+import static chess.domain.piece.Rook.WHITE_ROOK;
 
 public record ChessBoardDto(String chessBoardExpression) {
 
     private static final int WIDTH = 8;
     private static final int HEIGHT = 8;
     private static final Map<Piece, String> PIECE_EXPRESSION = Map.ofEntries(
-            Map.entry(King.of(BLACK), "K"),
-            Map.entry(Queen.of(BLACK), "Q"),
-            Map.entry(Rook.of(BLACK), "R"),
-            Map.entry(Bishop.of(BLACK), "B"),
-            Map.entry(Knight.of(BLACK), "N"),
-            Map.entry(Pawn.of(BLACK), "P"),
-            Map.entry(King.of(WHITE), "k"),
-            Map.entry(Queen.of(WHITE), "q"),
-            Map.entry(Rook.of(WHITE), "r"),
-            Map.entry(Bishop.of(WHITE), "b"),
-            Map.entry(Knight.of(WHITE), "n"),
-            Map.entry(Pawn.of(WHITE), "p"),
-            Map.entry(EmptyPiece.of(), ".")
+            Map.entry(BLACK_KING, "K"),
+            Map.entry(BLACK_QUEEN, "Q"),
+            Map.entry(BLACK_ROOK, "R"),
+            Map.entry(BLACK_BISHOP, "B"),
+            Map.entry(BLACK_KNIGHT, "N"),
+            Map.entry(BLACK_PAWN, "P"),
+            Map.entry(WHITE_KING, "k"),
+            Map.entry(WHITE_QUEEN, "q"),
+            Map.entry(WHITE_ROOK, "r"),
+            Map.entry(WHITE_BISHOP, "b"),
+            Map.entry(WHITE_KNIGHT, "n"),
+            Map.entry(WHITE_PAWN, "p"),
+            Map.entry(EMPTY_PIECE, ".")
     );
 
     public static ChessBoardDto of(ChessBoard chessBoard) {

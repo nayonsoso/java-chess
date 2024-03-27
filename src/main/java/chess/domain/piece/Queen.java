@@ -2,20 +2,12 @@ package chess.domain.piece;
 
 public class Queen extends Piece {
 
-    private static final Queen BLACK_QUEEN = new Queen(Color.BLACK);
-    private static final Queen WHITE_QUEEN = new Queen(Color.WHITE);
+    public static final Queen BLACK_QUEEN = new Queen(Color.BLACK);
+    public static final Queen WHITE_QUEEN = new Queen(Color.WHITE);
 
     private Queen(final Color color) {
         super(color);
         initDirections();
-    }
-
-    public static Queen of(final Color color) {
-        if (color.isBlack()) {
-            return BLACK_QUEEN;
-        }
-
-        return WHITE_QUEEN;
     }
 
     private void initDirections() {

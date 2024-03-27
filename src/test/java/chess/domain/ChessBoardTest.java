@@ -1,12 +1,21 @@
 package chess.domain;
 
-import chess.domain.piece.*;
+import chess.domain.piece.Knight;
+import chess.domain.piece.Pawn;
+import chess.domain.piece.Piece;
+import chess.domain.piece.Rook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
+import static chess.domain.piece.King.BLACK_KING;
+import static chess.domain.piece.Pawn.WHITE_PAWN;
+import static chess.domain.piece.Queen.BLACK_QUEEN;
+import static chess.domain.piece.Rook.BLACK_ROOK;
+import static chess.domain.piece.Rook.WHITE_ROOK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -43,7 +52,7 @@ class ChessBoardTest {
         chessBoard.move(source, target);
 
         Piece pieceAtSourcePositionAfterMove = chessBoard.findPieceByPosition(source);
-        assertThat(pieceAtSourcePositionAfterMove).isEqualTo(EmptyPiece.of());
+        assertThat(pieceAtSourcePositionAfterMove).isEqualTo(EMPTY_PIECE);
     }
 
     @DisplayName("제자리로 이동하려는 경우 예외기 발생한다.")
@@ -51,7 +60,7 @@ class ChessBoardTest {
     void canNotMoveToSamePosition() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.B, Rank.TWO);
-        positionPiece.put(sourcePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, sourcePosition))
@@ -64,9 +73,9 @@ class ChessBoardTest {
     void canNotMoveAtEmptyPosition() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, EmptyPiece.of());
+        positionPiece.put(sourcePosition, EMPTY_PIECE);
         Position targetPosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(targetPosition, Pawn.of(Color.BLACK));
+        positionPiece.put(targetPosition, Pawn.BLACK_PAWN);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -79,9 +88,9 @@ class ChessBoardTest {
     void cannotMoveIfAllyAlreadyExist() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, King.of(Color.BLACK));
+        positionPiece.put(sourcePosition, BLACK_KING);
         Position targetPosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(targetPosition, Pawn.of(Color.BLACK));
+        positionPiece.put(targetPosition, Pawn.BLACK_PAWN);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -94,9 +103,9 @@ class ChessBoardTest {
     void cannotReachTarget() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, King.of(Color.BLACK));
+        positionPiece.put(sourcePosition, BLACK_KING);
         Position targetPosition = Position.of(File.A, Rank.THREE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -109,11 +118,11 @@ class ChessBoardTest {
     void obstacleExistOnRoute() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, Rook.of(Color.BLACK));
+        positionPiece.put(sourcePosition, BLACK_ROOK);
         Position obstaclePosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(obstaclePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(obstaclePosition, Pawn.BLACK_PAWN);
         Position targetPosition = Position.of(File.A, Rank.THREE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -126,11 +135,11 @@ class ChessBoardTest {
     void knightCanJumpOverPiece() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, Knight.of(Color.BLACK));
+        positionPiece.put(sourcePosition, Knight.BLACK_KNIGHT);
         Position obstaclePosition = Position.of(File.A, Rank.TWO);
-        positionPiece.put(obstaclePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(obstaclePosition, Pawn.BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.THREE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -142,9 +151,9 @@ class ChessBoardTest {
     void invalidDirection() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        positionPiece.put(sourcePosition, Rook.of(Color.BLACK));
+        positionPiece.put(sourcePosition, BLACK_ROOK);
         Position targetPosition = Position.of(File.C, Rank.THREE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -157,12 +166,12 @@ class ChessBoardTest {
     void kill() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.ONE);
-        Rook sourcePiece = Rook.of(Color.BLACK);
+        Rook sourcePiece = BLACK_ROOK;
         positionPiece.put(sourcePosition, sourcePiece);
         Position targetPosition = Position.of(File.A, Rank.THREE);
-        Rook targetPiece = Rook.of(Color.WHITE);
+        Rook targetPiece = WHITE_ROOK;
         positionPiece.put(targetPosition, targetPiece);
-        positionPiece.put(Position.of(File.A, Rank.TWO), EmptyPiece.of());
+        positionPiece.put(Position.of(File.A, Rank.TWO), EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         chessBoard.move(sourcePosition, targetPosition);
@@ -176,9 +185,9 @@ class ChessBoardTest {
     void fromEdgeToEdge() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Queen.of(Color.BLACK));
+        positionPiece.put(sourcePosition, BLACK_QUEEN);
         Position targetPosition = Position.of(File.A, Rank.EIGHT);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -190,11 +199,11 @@ class ChessBoardTest {
     void pawnCanMoveTwiceIfFirstMove() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
         Position blankPosition = Position.of(File.A, Rank.SIX);
-        positionPiece.put(blankPosition, EmptyPiece.of());
+        positionPiece.put(blankPosition, EMPTY_PIECE);
         Position targetPosition = Position.of(File.A, Rank.FIVE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -206,9 +215,9 @@ class ChessBoardTest {
     void pawnCanMoveDiagonalIfEnemyThere() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.SIX);
-        positionPiece.put(targetPosition, Pawn.of(Color.WHITE));
+        positionPiece.put(targetPosition, WHITE_PAWN);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -220,9 +229,9 @@ class ChessBoardTest {
     void pawnCanNotMoveTwiceIfItIsNotOnStartPositions() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.THREE);
-        positionPiece.put(sourcePosition, Pawn.of(Color.WHITE));
+        positionPiece.put(sourcePosition, WHITE_PAWN);
         Position targetPosition = Position.of(File.A, Rank.FIVE);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))
@@ -235,9 +244,9 @@ class ChessBoardTest {
     void pawnCanNotMoveDiagonalIfThereIsNoEnemy() {
         Map<Position, Piece> positionPiece = new LinkedHashMap<>();
         Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-        positionPiece.put(sourcePosition, Pawn.of(Color.BLACK));
+        positionPiece.put(sourcePosition, Pawn.BLACK_PAWN);
         Position targetPosition = Position.of(File.B, Rank.SIX);
-        positionPiece.put(targetPosition, EmptyPiece.of());
+        positionPiece.put(targetPosition, EMPTY_PIECE);
         ChessBoard chessBoard = new ChessBoard(positionPiece, new PawnMovementRule());
 
         assertThatCode(() -> chessBoard.move(sourcePosition, targetPosition))

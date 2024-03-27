@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.Pawn.WHITE_PAWN;
+
 class PawnTest {
 
     @Test
     @DisplayName("원하는 만큼 움직일 수 있는지 반환한다.")
     void canMoveMoreThenOnce() {
-        Pawn pawn = Pawn.of(Color.WHITE);
+        Pawn pawn = WHITE_PAWN;
 
         boolean canMoveMoreThenOnce = pawn.canMoveMoreThenOnce();
 
@@ -25,13 +27,11 @@ class PawnTest {
 
         @ParameterizedTest
         @CsvSource(value = {
-                "WHITE,UP,true", "WHITE,DOWN,false",
-                "BLACK,UP,false", "BLACK,DOWN,true"
+                "WHITE_PAWN,UP,true", "WHITE_PAWN,DOWN,false",
+                "BLACK_PAWN,UP,false", "BLACK_PAWN,DOWN,true"
         })
         @DisplayName("색에 따라 위, 아래 이동이 가능해진다.")
-        void canMove(Color color, Direction direction, boolean canMove) {
-            Pawn pawn = Pawn.of(color);
-
+        void canMove(Pawn pawn, Direction direction, boolean canMove) {
             boolean result = pawn.canMoveInTargetDirection(direction);
 
             Assertions.assertThat(result).isEqualTo(canMove);
@@ -49,7 +49,7 @@ class PawnTest {
         })
         @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
         void canNotMove(Direction direction) {
-            Pawn pawn = Pawn.of(Color.WHITE);
+            Pawn pawn = WHITE_PAWN;
 
             boolean result = pawn.canMoveInTargetDirection(direction);
 
@@ -60,7 +60,7 @@ class PawnTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        Pawn pawn = Pawn.of(Color.WHITE);
+        Pawn pawn = WHITE_PAWN;
 
         boolean isPawn = pawn.isPawn();
 

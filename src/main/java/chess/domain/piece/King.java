@@ -2,20 +2,12 @@ package chess.domain.piece;
 
 public class King extends Piece {
 
-    private static final King BLACK_KING = new King(Color.BLACK);
-    private static final King WHITE_KING = new King(Color.WHITE);
+    public static final King BLACK_KING = new King(Color.BLACK);
+    public static final King WHITE_KING = new King(Color.WHITE);
 
     private King(final Color color) {
         super(color);
         initDirections();
-    }
-
-    public static King of(final Color color) {
-        if (color.isBlack()) {
-            return BLACK_KING;
-        }
-
-        return WHITE_KING;
     }
 
     private void initDirections() {

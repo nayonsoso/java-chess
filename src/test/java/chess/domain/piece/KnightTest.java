@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.Knight.WHITE_KNIGHT;
+
 class KnightTest {
 
     @Test
     @DisplayName("원하는 만큼 움직일 수 있는지 반환한다.")
     void canMoveMoreThenOnce() {
-        Knight knight = Knight.of(Color.WHITE);
+        Knight knight = WHITE_KNIGHT;
 
         boolean canMoveMoreThenOnce = knight.canMoveMoreThenOnce();
 
@@ -31,7 +33,7 @@ class KnightTest {
         })
         @DisplayName("이동할 수 있는 방향이면 true를 반환한다.")
         void canMove(Direction direction) {
-            Knight knight = Knight.of(Color.WHITE);
+            Knight knight = WHITE_KNIGHT;
 
             boolean result = knight.canMoveInTargetDirection(direction);
 
@@ -46,7 +48,7 @@ class KnightTest {
         })
         @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
         void canNotMove(Direction direction) {
-            Knight knight = Knight.of(Color.WHITE);
+            Knight knight = WHITE_KNIGHT;
 
             boolean result = knight.canMoveInTargetDirection(direction);
 
@@ -57,7 +59,7 @@ class KnightTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        Knight knight = Knight.of(Color.WHITE);
+        Knight knight = WHITE_KNIGHT;
 
         boolean isPawn = knight.isPawn();
 

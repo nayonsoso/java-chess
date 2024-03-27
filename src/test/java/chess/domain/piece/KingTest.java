@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.King.WHITE_KING;
+
 class KingTest {
 
     @Test
     @DisplayName("원하는 만큼 움직일 수 있는지 반환한다.")
     void canMoveMoreThenOnce() {
-        King king = King.of(Color.WHITE);
+        King king = WHITE_KING;
 
         boolean canMoveMoreThenOnce = king.canMoveMoreThenOnce();
 
@@ -30,7 +32,7 @@ class KingTest {
         })
         @DisplayName("이동할 수 있는 방향이면 true를 반환한다.")
         void canMove(Direction direction) {
-            King king = King.of(Color.WHITE);
+            King king = WHITE_KING;
 
             boolean result = king.canMoveInTargetDirection(direction);
 
@@ -46,7 +48,7 @@ class KingTest {
         })
         @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
         void canNotMove(Direction direction) {
-            King king = King.of(Color.WHITE);
+            King king = WHITE_KING;
 
             boolean result = king.canMoveInTargetDirection(direction);
 
@@ -57,7 +59,7 @@ class KingTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        King king = King.of(Color.WHITE);
+        King king = WHITE_KING;
 
         boolean isPawn = king.isPawn();
 

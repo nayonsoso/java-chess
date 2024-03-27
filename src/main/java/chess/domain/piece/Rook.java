@@ -2,20 +2,12 @@ package chess.domain.piece;
 
 public class Rook extends Piece {
 
-    private static final Rook BLACK_ROOK = new Rook(Color.BLACK);
-    private static final Rook WHITE_ROOK = new Rook(Color.WHITE);
+    public static final Rook BLACK_ROOK = new Rook(Color.BLACK);
+    public static final Rook WHITE_ROOK = new Rook(Color.WHITE);
 
     private Rook(final Color color) {
         super(color);
         initDirections();
-    }
-
-    public static Rook of(final Color color) {
-        if (color.isBlack()) {
-            return BLACK_ROOK;
-        }
-
-        return WHITE_ROOK;
     }
 
     private void initDirections() {

@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.Rook.WHITE_ROOK;
+
 class RookTest {
 
     @Test
     @DisplayName("원하는 만큼 움직일 수 있는지 반환한다.")
     void canMoveMoreThenOnce() {
-        Rook rook = Rook.of(Color.WHITE);
+        Rook rook = WHITE_ROOK;
 
         boolean canMoveMoreThenOnce = rook.canMoveMoreThenOnce();
 
@@ -28,7 +30,7 @@ class RookTest {
         })
         @DisplayName("이동할 수 있는 방향이면 true를 반환한다.")
         void canMove(Direction direction) {
-            Rook rook = Rook.of(Color.WHITE);
+            Rook rook = WHITE_ROOK;
 
             boolean result = rook.canMoveInTargetDirection(direction);
 
@@ -46,7 +48,7 @@ class RookTest {
         })
         @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
         void canNotMove(Direction direction) {
-            Rook rook = Rook.of(Color.WHITE);
+            Rook rook = WHITE_ROOK;
 
             boolean result = rook.canMoveInTargetDirection(direction);
 
@@ -57,7 +59,7 @@ class RookTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        Rook rook = Rook.of(Color.WHITE);
+        Rook rook = WHITE_ROOK;
 
         boolean isPawn = rook.isPawn();
 

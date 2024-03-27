@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class EmptyPieceTest {
@@ -20,7 +21,7 @@ class EmptyPieceTest {
     })
     @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
     void canNotMove(Direction direction) {
-        EmptyPiece emptyPiece = EmptyPiece.of();
+        EmptyPiece emptyPiece = EMPTY_PIECE;
 
         boolean result = emptyPiece.canMoveInTargetDirection(direction);
 
@@ -30,7 +31,7 @@ class EmptyPieceTest {
     @DisplayName("원하는 만큼 이동할 수 있는지 반환한다.")
     @Test
     void canMoveMoreThenOnce() {
-        boolean result = EmptyPiece.of().canMoveMoreThenOnce();
+        boolean result = EMPTY_PIECE.canMoveMoreThenOnce();
 
         assertThat(result).isFalse();
     }
@@ -38,7 +39,7 @@ class EmptyPieceTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        EmptyPiece emptyPiece = EmptyPiece.of();
+        EmptyPiece emptyPiece = EMPTY_PIECE;
 
         boolean isPawn = emptyPiece.isPawn();
 

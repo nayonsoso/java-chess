@@ -2,20 +2,12 @@ package chess.domain.piece;
 
 public class Knight extends Piece {
 
-    private static final Knight BLACK_KNIGHT = new Knight(Color.BLACK);
-    private static final Knight WHITE_KNIGHT = new Knight(Color.WHITE);
+    public static final Knight BLACK_KNIGHT = new Knight(Color.BLACK);
+    public static final Knight WHITE_KNIGHT = new Knight(Color.WHITE);
 
     private Knight(final Color color) {
         super(color);
         initDirections();
-    }
-
-    public static Knight of(final Color color) {
-        if (color.isBlack()) {
-            return BLACK_KNIGHT;
-        }
-
-        return WHITE_KNIGHT;
     }
 
     private void initDirections() {

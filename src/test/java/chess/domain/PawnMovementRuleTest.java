@@ -1,10 +1,14 @@
 package chess.domain;
 
-import chess.domain.piece.*;
+import chess.domain.piece.Direction;
+import chess.domain.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
+import static chess.domain.piece.Pawn.BLACK_PAWN;
+import static chess.domain.piece.Pawn.WHITE_PAWN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PawnMovementRuleTest {
@@ -74,8 +78,8 @@ class PawnMovementRuleTest {
         @Test
         void canNotMoveDiagonalByWrongDirection() {
             PawnMovementRule pawnMovementRule = new PawnMovementRule();
-            Piece sourcePiece = Pawn.of(Color.BLACK);
-            Piece targetPiece = Pawn.of(Color.WHITE);
+            Piece sourcePiece = BLACK_PAWN;
+            Piece targetPiece = WHITE_PAWN;
 
             boolean result = pawnMovementRule.canMoveTowardDiagonal(sourcePiece, targetPiece, Direction.KNIGHT_LEFT_UP);
 
@@ -86,8 +90,8 @@ class PawnMovementRuleTest {
         @Test
         void canNotMoveDiagonalByNoEnemy() {
             PawnMovementRule pawnMovementRule = new PawnMovementRule();
-            Piece sourcePiece = Pawn.of(Color.BLACK);
-            Piece targetPiece = EmptyPiece.of();
+            Piece sourcePiece = BLACK_PAWN;
+            Piece targetPiece = EMPTY_PIECE;
 
             boolean result = pawnMovementRule.canMoveTowardDiagonal(sourcePiece, targetPiece, Direction.LEFT_UP);
 
@@ -98,8 +102,8 @@ class PawnMovementRuleTest {
         @Test
         void canMoveDiagonal() {
             PawnMovementRule pawnMovementRule = new PawnMovementRule();
-            Piece sourcePiece = Pawn.of(Color.BLACK);
-            Piece targetPiece = Pawn.of(Color.WHITE);
+            Piece sourcePiece = BLACK_PAWN;
+            Piece targetPiece = WHITE_PAWN;
 
             boolean result = pawnMovementRule.canMoveTowardDiagonal(sourcePiece, targetPiece, Direction.LEFT_UP);
 

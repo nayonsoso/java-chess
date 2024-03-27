@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static chess.domain.piece.Bishop.WHITE_BISHOP;
+
 class BishopTest {
 
     @Test
     @DisplayName("원하는 만큼 움직일 수 있는지 반환한다.")
     void canMoveMoreThenOnce() {
-        Bishop bishop = Bishop.of(Color.WHITE);
+        Bishop bishop = WHITE_BISHOP;
 
         boolean canMoveMoreThenOnce = bishop.canMoveMoreThenOnce();
 
@@ -30,7 +32,7 @@ class BishopTest {
         })
         @DisplayName("이동할 수 있는 방향이면 true를 반환한다.")
         void canMove(Direction direction) {
-            Bishop bishop = Bishop.of(Color.WHITE);
+            Bishop bishop = WHITE_BISHOP;
 
             boolean result = bishop.canMoveInTargetDirection(direction);
 
@@ -47,7 +49,7 @@ class BishopTest {
         })
         @DisplayName("이동할 수 없는 방향이면 false를 반환한다.")
         void canNotMove(Direction direction) {
-            Bishop bishop = Bishop.of(Color.WHITE);
+            Bishop bishop = WHITE_BISHOP;
 
             boolean result = bishop.canMoveInTargetDirection(direction);
 
@@ -58,7 +60,7 @@ class BishopTest {
     @DisplayName("폰인지를 반환한다.")
     @Test
     void isPawn() {
-        Bishop bishop = Bishop.of(Color.WHITE);
+        Bishop bishop = WHITE_BISHOP;
 
         boolean isPawn = bishop.isPawn();
 
