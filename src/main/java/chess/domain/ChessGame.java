@@ -12,14 +12,14 @@ public class ChessGame {
         this.chessBoard = chessBoard;
     }
 
-    public GameStatus executeRound(Position sourcePosition, Position targetPosition) {
+    public MoveResult executeRound(Position sourcePosition, Position targetPosition) {
         validateRoundColor(sourcePosition);
-        GameStatus gameStatus = chessBoard.move(sourcePosition, targetPosition);
+        MoveResult moveResult = chessBoard.move(sourcePosition, targetPosition);
 
-        if (!gameStatus.isEnd()) {
+        if (!moveResult.isEnd()) {
             currentRoundColor = currentRoundColor.getOppositeColor();
         }
-        return gameStatus;
+        return moveResult;
     }
 
     private void validateRoundColor(Position sourcePosition) {
