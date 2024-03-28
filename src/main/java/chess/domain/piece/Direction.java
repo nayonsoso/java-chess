@@ -64,4 +64,13 @@ public enum Direction {
     public static Set<Direction> getDiagonals() {
         return Set.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
     }
+
+    public static Set<Direction> getHorizonVerticalAndDiagonals() {
+        return Set.of(LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
+    }
+
+    public static Set<Direction> getLShapes() {
+        return Set.of(LEFT_LEFT_UP, LEFT_LEFT_DOWN, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN,
+                LEFT_UP_UP, RIGHT_UP_UP, LEFT_DOWN_DOWN, RIGHT_DOWN_DOWN);
+    }
 }

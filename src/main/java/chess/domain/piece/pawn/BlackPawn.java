@@ -1,32 +1,35 @@
 package chess.domain.piece.pawn;
 
-import chess.domain.Rank;
 import chess.domain.piece.Color;
 import chess.domain.piece.Direction;
+import chess.domain.piece.Piece;
+import chess.domain.piece.PieceType;
 
 import java.util.Set;
 
-public class BlackPawn extends Pawn {
+public class BlackPawn extends Piece {
 
     public static final BlackPawn BLACK_PAWN = new BlackPawn(Color.BLACK);
 
+    public final Set<Direction> moveDirections = Set.of(Direction.DOWN);
+    public final Set<Direction> attackDirections = Set.of(Direction.LEFT_DOWN, Direction.RIGHT_DOWN);
+
     private BlackPawn(final Color color) {
-        super(color);
-        initMovementDirections();
+        super(PieceType.PAWN, color, new PawnMoveStrategy(color));
     }
 
     @Override
-    protected void initMovementDirections() {
-        this.movementDirections.add(Direction.DOWN);
+    public Set<Direction> getMoveDirections() {
+        return moveDirections;
     }
 
     @Override
-    protected void initAttackDirections() {
-        this.attackDirections.addAll(Set.of(Direction.LEFT_DOWN, Direction.RIGHT_DOWN));
+    public Set<Direction> getAttackDirections() {
+        return attackDirections;
     }
 
     @Override
-    protected void initInitialRank() {
-        this.initialRank = Rank.SEVEN;
+    public boolean isPawn() {
+        return true;
     }
 }

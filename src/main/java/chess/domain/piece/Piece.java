@@ -2,23 +2,30 @@ package chess.domain.piece;
 
 import chess.domain.Position;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Piece {
 
-    protected final Set<Direction> movementDirections = new HashSet<>();
+    protected final PieceType pieceType;
     protected final Color color;
-    protected double score;
+    protected final MoveStrategy moveStrategy;
 
-    protected Piece(final Color color) {
+    protected Piece(final PieceType pieceType, final Color color, final MoveStrategy moveStrategy) {
+        this.pieceType = pieceType;
         this.color = color;
+        this.moveStrategy = moveStrategy;
     }
 
-    public abstract boolean canMove(final Position source, final Position target);
+    public abstract Set<Direction> getMoveDirections();
+
+    public abstract Set<Direction> getAttackDirections();
+
+    public boolean canMove(final Position source, final Position target) {
+        return moveStrategy.canMove(getMoveDirections(), source, target);
+    }
 
     public boolean canAttack(final Position source, final Position target) {
-        return canMove(source, target);
+        return moveStrategy.canAttack(getAttackDirections(), source, target);
     }
 
     public boolean isKing() {
@@ -30,17 +37,19 @@ public abstract class Piece {
     }
 
     public double getScore() {
-        return this.score;
+        return this.pieceType.getScore();
     }
 
-    protected final boolean canMoveInDirection(final Position source, final Position target) {
-        Direction direction = source.calculateDirection(target);
-
-        return this.movementDirections.contains(direction);
+    public Color getColor() {
+        return this.color;
     }
 
     public final boolean isSameColor(Piece piece) {
         return this.color == piece.color;
+    }
+
+    public final boolean isSameColor(Color color) {
+        return this.color == color;
     }
 
     public final boolean isOppositeColor(Piece piece) {

@@ -2,30 +2,29 @@ package chess.domain.piece.singlestep;
 
 import chess.domain.piece.Color;
 import chess.domain.piece.Direction;
+import chess.domain.piece.Piece;
+import chess.domain.piece.PieceType;
 
-public class Knight extends SingleStepPiece {
+import java.util.Set;
+
+public class Knight extends Piece {
 
     public static final Knight BLACK_KNIGHT = new Knight(Color.BLACK);
     public static final Knight WHITE_KNIGHT = new Knight(Color.WHITE);
 
+    private final Set<Direction> moveDirections = Direction.getLShapes();
+
     private Knight(final Color color) {
-        super(color);
+        super(PieceType.KNIGHT, color, new SingleStepMoveStrategy());
     }
 
     @Override
-    protected void initMovementDirections() {
-        this.movementDirections.add(Direction.LEFT_LEFT_UP);
-        this.movementDirections.add(Direction.LEFT_LEFT_DOWN);
-        this.movementDirections.add(Direction.RIGHT_RIGHT_UP);
-        this.movementDirections.add(Direction.RIGHT_RIGHT_DOWN);
-        this.movementDirections.add(Direction.LEFT_UP_UP);
-        this.movementDirections.add(Direction.RIGHT_UP_UP);
-        this.movementDirections.add(Direction.LEFT_DOWN_DOWN);
-        this.movementDirections.add(Direction.RIGHT_DOWN_DOWN);
+    public Set<Direction> getMoveDirections() {
+        return moveDirections;
     }
 
     @Override
-    protected void initScore() {
-        this.score = 2.5;
+    public Set<Direction> getAttackDirections() {
+        return getMoveDirections();
     }
 }
