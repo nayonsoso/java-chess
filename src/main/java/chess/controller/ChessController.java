@@ -51,7 +51,12 @@ public class ChessController {
             if (command.isMove()) {
                 Position source = command.getSourcePosition();
                 Position target = command.getTargetPosition();
-                chessGame.executeRound(source, target);
+                MoveResult moveResult = chessGame.executeRound(source, target);
+                if (moveResult.isEnd()) {
+                    outputView.printGameEnd(chessGame.getCurrentRoundColor());
+                    break;
+                }
+
                 printChessBoard(chessGame.getChessBoard());
             }
             if (command.isStatus()) {

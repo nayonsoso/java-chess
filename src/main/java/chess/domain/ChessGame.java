@@ -37,4 +37,8 @@ public class ChessGame {
     public ChessBoard getChessBoard() {
         return this.chessBoard;
     }
+
+    public Color getCurrentRoundColor() {
+        return currentRoundColor;
+    }
 }
