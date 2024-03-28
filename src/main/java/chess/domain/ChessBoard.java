@@ -15,14 +15,23 @@ public class ChessBoard {
         this.chessBoard = chessBoard;
     }
 
-    public void move(final Position sourcePosition, final Position targetPosition) {
-        validateCommonRule(sourcePosition, targetPosition);
-        validateCanMove(sourcePosition, targetPosition);
-        validateNoObstacleInRoute(sourcePosition, targetPosition);
-
+    public GameStatus move(final Position sourcePosition, final Position targetPosition) {
+        validateMove(sourcePosition, targetPosition);
         Piece sourcePiece = chessBoard.get(sourcePosition);
+        Piece targetPiece = chessBoard.get(targetPosition);
         chessBoard.put(targetPosition, sourcePiece);
         chessBoard.put(sourcePosition, EMPTY_PIECE);
+
+        if (targetPiece.isKing()) {
+            return GameStatus.END;
+        }
+        return GameStatus.NOT_END;
+    }
+
+    private void validateMove(final Position sourcePosition, final Position targetPosition) {
+        validateCommonRule(sourcePosition, targetPosition);
+        validateMoveOrAttack(sourcePosition, targetPosition);
+        validateNoObstacleInRoute(sourcePosition, targetPosition);
     }
 
     private void validateCommonRule(Position sourcePosition, Position targetPosition) {
@@ -49,7 +58,7 @@ public class ChessBoard {
         }
     }
 
-    private void validateCanMove(Position sourcePosition, Position targetPosition) {
+    private void validateMoveOrAttack(Position sourcePosition, Position targetPosition) {
         Piece sourcePiece = chessBoard.get(sourcePosition);
         Piece targetPiece = chessBoard.get(targetPosition);
         if (sourcePiece.isOppositeColor(targetPiece)) {

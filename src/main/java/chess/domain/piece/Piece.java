@@ -47,4 +47,14 @@ public abstract class Piece {
         }
         return false;
     }
+
+    public final boolean isOppositeColor(Color color) {
+        if (this.color.isBlack()) {
+            return color.isWhite();
+        }
+        if (this.color.isWhite()) {
+            return color.isBlack();
+        }
+        return false;
+    }
 }
