@@ -1,5 +1,6 @@
 package chess.domain;
 
+import chess.domain.piece.Color;
 import chess.domain.piece.Direction;
 import chess.domain.piece.Piece;
 
@@ -106,5 +107,13 @@ public class ChessBoard {
 
     public Map<Position, Piece> getBoard() {
         return this.chessBoard;
+    }
+
+    public double calculateScore(Color color) {
+        return this.chessBoard.values().stream()
+                .filter(piece -> piece.isSameColor(color))
+                .map(Piece::getScore)
+                .mapToDouble(Double::doubleValue)
+                .sum();
     }
 }
