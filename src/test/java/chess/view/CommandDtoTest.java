@@ -25,7 +25,7 @@ class CommandDtoTest {
 
         assertThatThrownBy(() -> CommandDto.of(input))
                 .isExactlyInstanceOf(IllegalArgumentException.class)
-                .hasMessage("start, move, end만 입력할 수 있습니다.");
+                .hasMessage("start, move, status, end만 입력할 수 있습니다.");
     }
 
     @ParameterizedTest

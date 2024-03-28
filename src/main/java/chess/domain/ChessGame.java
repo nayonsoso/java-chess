@@ -30,6 +30,10 @@ public class ChessGame {
         }
     }
 
+    public double calculateScore(Color color) {
+        return this.chessBoard.calculateScore(color);
+    }
+
     public ChessBoard getChessBoard() {
         return this.chessBoard;
     }

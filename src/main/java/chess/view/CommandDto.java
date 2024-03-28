@@ -15,6 +15,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     private static final String START_EXPRESSION = "start";
     private static final String END_EXPRESSION = "end";
     private static final String MOVE_EXPRESSION = "move";
+    private static final String STATUS_EXPRESSION = "status";
     private static final Pattern POSITION_PATTERN = Pattern.compile("^[a-h][1-8]$");
 
     public static CommandDto of(String rawInput) {
@@ -36,8 +37,9 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     private static void validateCommandExpression(final String rawInput) {
         if (!(START_EXPRESSION.equals(rawInput) ||
                 END_EXPRESSION.equals(rawInput) ||
-                MOVE_EXPRESSION.equals(rawInput))) {
-            throw new IllegalArgumentException("start, move, end만 입력할 수 있습니다.");
+                MOVE_EXPRESSION.equals(rawInput) ||
+                STATUS_EXPRESSION.equals(rawInput))) {
+            throw new IllegalArgumentException("start, move, status, end만 입력할 수 있습니다.");
         }
     }
 
@@ -47,6 +49,9 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         }
         if (MOVE_EXPRESSION.equals(rawInput)) {
             return CommandType.MOVE;
+        }
+        if (STATUS_EXPRESSION.equals(rawInput)) {
+            return CommandType.STATUS;
         }
         return CommandType.END;
     }

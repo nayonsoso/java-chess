@@ -19,4 +19,9 @@ public class OutputView {
     public void printErrorMessage(final String message) {
         System.out.printf("%s %s%n", ERROR_PREFIX, message);
     }
+
+    public void printEachScore(final ScoreDto scoreDto) {
+        System.out.printf("백팀의 점수 : %s, 흑팀의 점수 : %s%n", scoreDto.whiteScore(), scoreDto.blackScore());
+        System.out.printf("앞서고 있는 팀 : %s%n", scoreDto.winningColor());
+    }
 }

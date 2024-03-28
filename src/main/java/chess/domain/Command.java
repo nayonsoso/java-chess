@@ -40,6 +40,10 @@ public class Command {
         return this.commandType == CommandType.END;
     }
 
+    public boolean isStatus() {
+        return this.commandType == CommandType.STATUS;
+    }
+
     public Position getSourcePosition() {
         return this.positions.get(0);
     }

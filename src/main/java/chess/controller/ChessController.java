@@ -1,10 +1,8 @@
 package chess.controller;
 
 import chess.domain.*;
-import chess.view.ChessBoardDto;
-import chess.view.CommandDto;
-import chess.view.InputView;
-import chess.view.OutputView;
+import chess.domain.piece.Color;
+import chess.view.*;
 
 public class ChessController {
 
@@ -20,11 +18,20 @@ public class ChessController {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
         ChessGame chessGame = new ChessGame(chessBoard);
         outputView.printCommandInformation();
-        Command command = readCommand();
+        Command command = startGameWithHandleError();
 
         if (command.isStart()) {
             printChessBoard(chessBoard);
             startRoundWithHandleError(chessGame);
+        }
+    }
+
+    private Command startGameWithHandleError() {
+        try {
+            return readStartOrEndCommand();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return startGameWithHandleError();
         }
     }
 
@@ -40,11 +47,19 @@ public class ChessController {
     private void startRound(final ChessGame chessGame) {
         Command command = readCommand();
 
-        while (command.isMove()) {
-            Position source = command.getSourcePosition();
-            Position target = command.getTargetPosition();
-            chessGame.executeRound(source, target);
-            printChessBoard(chessGame.getChessBoard());
+        while (command.isMove() || command.isStatus()) {
+            if (command.isMove()) {
+                Position source = command.getSourcePosition();
+                Position target = command.getTargetPosition();
+                chessGame.executeRound(source, target);
+                printChessBoard(chessGame.getChessBoard());
+            }
+            if (command.isStatus()) {
+                double whiteScore = chessGame.calculateScore(Color.WHITE);
+                double blackScore = chessGame.calculateScore(Color.BLACK);
+                ScoreDto scoreDto = ScoreDto.of(whiteScore, blackScore);
+                outputView.printEachScore(scoreDto);
+            }
             command = readCommand();
         }
 
@@ -54,6 +69,15 @@ public class ChessController {
     private Command readCommand() {
         CommandDto commandDto = inputView.readCommand();
         return Command.of(commandDto);
+    }
+
+    private Command readStartOrEndCommand() {
+        Command command = readCommand();
+        if (!(command.isStart() || command.isEnd())) {
+            throw new IllegalArgumentException("start 또는 end만 입력할 수 있습니다.");
+        }
+
+        return command;
     }
 
     private void validateStartDuplicate(Command command) {
