@@ -26,4 +26,9 @@ public class King extends SingleStepPiece {
     public boolean isKing() {
         return true;
     }
+
+    @Override
+    protected void initScore() {
+        this.score = 0;
+    }
 }

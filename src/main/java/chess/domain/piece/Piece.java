@@ -9,6 +9,7 @@ public abstract class Piece {
 
     protected final Set<Direction> movementDirections = new HashSet<>();
     protected final Color color;
+    protected double score;
 
     protected Piece(final Color color) {
         this.color = color;
@@ -26,6 +27,10 @@ public abstract class Piece {
 
     public boolean isPawn() {
         return false;
+    }
+
+    public double getScore() {
+        return this.score;
     }
 
     protected final boolean canMoveInDirection(final Position source, final Position target) {

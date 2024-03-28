@@ -20,4 +20,9 @@ public class Bishop extends MultiStepPiece {
         Set<Direction> diagonals = Direction.getDiagonals();
         this.movementDirections.addAll(diagonals);
     }
+
+    @Override
+    protected void initScore() {
+        this.score = 3;
+    }
 }

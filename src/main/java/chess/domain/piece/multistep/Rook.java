@@ -20,4 +20,9 @@ public class Rook extends MultiStepPiece {
         Set<Direction> horizonAndVerticals = Direction.getHorizonAndVerticals();
         this.movementDirections.addAll(horizonAndVerticals);
     }
+
+    @Override
+    protected void initScore() {
+        this.score = 5;
+    }
 }

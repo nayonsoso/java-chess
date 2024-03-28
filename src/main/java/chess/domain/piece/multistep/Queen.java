@@ -22,4 +22,9 @@ public class Queen extends MultiStepPiece {
         this.movementDirections.addAll(horizonAndVerticals);
         this.movementDirections.addAll(diagonals);
     }
+
+    @Override
+    protected void initScore() {
+        this.score = 9;
+    }
 }

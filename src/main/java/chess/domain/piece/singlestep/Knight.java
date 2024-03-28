@@ -23,4 +23,9 @@ public class Knight extends SingleStepPiece {
         this.movementDirections.add(Direction.LEFT_DOWN_DOWN);
         this.movementDirections.add(Direction.RIGHT_DOWN_DOWN);
     }
+
+    @Override
+    protected void initScore() {
+        this.score = 2.5;
+    }
 }

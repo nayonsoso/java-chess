@@ -58,4 +58,13 @@ class KingTest {
 
         assertThat(isKing).isTrue();
     }
+
+    @DisplayName("점수를 반환한다.")
+    @Test
+    void getScore() {
+        double actualScore = BLACK_KING.getScore();
+        double expectedScore = 0;
+
+        assertThat(actualScore).isEqualTo(expectedScore);
+    }
 }

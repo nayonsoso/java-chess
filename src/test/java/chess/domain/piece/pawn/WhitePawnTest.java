@@ -119,4 +119,13 @@ class WhitePawnTest {
 
         assertThat(isPawn).isTrue();
     }
+
+    @DisplayName("점수를 반환한다.")
+    @Test
+    void getScore() {
+        double actualScore = WHITE_PAWN.getScore();
+        double expectedScore = 1;
+
+        assertThat(actualScore).isEqualTo(expectedScore);
+    }
 }

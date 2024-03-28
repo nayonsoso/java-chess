@@ -4,12 +4,14 @@ import chess.domain.Position;
 import chess.fixture.SourceTargetPositions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static chess.domain.piece.multistep.Queen.BLACK_QUEEN;
 import static chess.domain.piece.multistep.Queen.WHITE_QUEEN;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,5 +49,14 @@ class QueenTest {
         static Stream<Arguments> makeNotMovablePositions() {
             return SourceTargetPositions.lShape();
         }
+    }
+
+    @DisplayName("점수를 반환한다.")
+    @Test
+    void getScore() {
+        double actualScore = BLACK_QUEEN.getScore();
+        double expectedScore = 9;
+
+        assertThat(actualScore).isEqualTo(expectedScore);
     }
 }

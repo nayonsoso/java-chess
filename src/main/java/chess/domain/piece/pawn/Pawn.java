@@ -19,6 +19,7 @@ public abstract class Pawn extends Piece {
         initMovementDirections();
         initAttackDirections();
         initInitialRank();
+        this.score = 1;
     }
 
     protected abstract void initMovementDirections();

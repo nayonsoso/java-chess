@@ -9,9 +9,12 @@ public abstract class MultiStepPiece extends Piece {
     protected MultiStepPiece(Color color) {
         super(color);
         initMovementDirections();
+        initScore();
     }
 
     protected abstract void initMovementDirections();
+
+    protected abstract void initScore();
 
     @Override
     public final boolean canMove(final Position sourcePosition, final Position targetPosition) {

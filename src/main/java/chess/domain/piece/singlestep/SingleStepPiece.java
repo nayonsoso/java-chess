@@ -10,9 +10,12 @@ public abstract class SingleStepPiece extends Piece {
     protected SingleStepPiece(Color color) {
         super(color);
         initMovementDirections();
+        initScore();
     }
 
     protected abstract void initMovementDirections();
+
+    protected abstract void initScore();
 
     @Override
     public final boolean canMove(final Position sourcePosition, final Position targetPosition) {

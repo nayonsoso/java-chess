@@ -4,12 +4,14 @@ import chess.domain.Position;
 import chess.fixture.SourceTargetPositions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static chess.domain.piece.multistep.Rook.BLACK_ROOK;
 import static chess.domain.piece.multistep.Rook.WHITE_ROOK;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,5 +49,14 @@ class RookTest {
                     SourceTargetPositions.lShape()
             );
         }
+    }
+
+    @DisplayName("점수를 반환한다.")
+    @Test
+    void getScore() {
+        double actualScore = BLACK_ROOK.getScore();
+        double expectedScore = 5;
+
+        assertThat(actualScore).isEqualTo(expectedScore);
     }
 }

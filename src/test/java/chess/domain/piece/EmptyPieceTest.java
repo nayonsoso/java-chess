@@ -24,4 +24,13 @@ class EmptyPieceTest {
 
         assertThat(result).isFalse();
     }
+
+    @DisplayName("점수를 반환한다.")
+    @Test
+    void getScore() {
+        double actualScore = EMPTY_PIECE.getScore();
+        double expectedScore = 0;
+
+        assertThat(actualScore).isEqualTo(expectedScore);
+    }
 }
