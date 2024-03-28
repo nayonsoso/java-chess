@@ -1,15 +1,10 @@
 package chess.controller;
 
-import chess.domain.ChessBoard;
-import chess.domain.ChessBoardFactory;
-import chess.domain.Command;
-import chess.domain.Position;
+import chess.domain.*;
 import chess.view.ChessBoardDto;
 import chess.view.CommandDto;
 import chess.view.InputView;
 import chess.view.OutputView;
-
-import java.util.function.Consumer;
 
 public class ChessController {
 
@@ -23,27 +18,42 @@ public class ChessController {
 
     public void run() {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
+        ChessGame chessGame = new ChessGame(chessBoard);
         outputView.printCommandInformation();
         Command command = readCommand();
 
         if (command.isStart()) {
             printChessBoard(chessBoard);
-            repeat(chessBoard, this::startGame);
+            startRoundWithHandleError(chessGame);
         }
     }
 
-    private void startGame(final ChessBoard chessBoard) {
+    private void startRoundWithHandleError(final ChessGame chessGame) {
+        try {
+            startRound(chessGame);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            startRoundWithHandleError(chessGame);
+        }
+    }
+
+    private void startRound(final ChessGame chessGame) {
         Command command = readCommand();
 
         while (command.isMove()) {
             Position source = command.getSourcePosition();
             Position target = command.getTargetPosition();
-            chessBoard.move(source, target);
-            printChessBoard(chessBoard);
+            chessGame.executeRound(source, target);
+            printChessBoard(chessGame.getChessBoard());
             command = readCommand();
         }
 
         validateStartDuplicate(command);
+    }
+
+    private Command readCommand() {
+        CommandDto commandDto = inputView.readCommand();
+        return Command.of(commandDto);
     }
 
     private void validateStartDuplicate(Command command) {
@@ -52,22 +62,8 @@ public class ChessController {
         }
     }
 
-    private Command readCommand() {
-        CommandDto commandDto = inputView.readCommand();
-        return Command.of(commandDto);
-    }
-
     private void printChessBoard(ChessBoard chessBoard) {
         ChessBoardDto chessBoardDto = ChessBoardDto.of(chessBoard);
         outputView.printChessBoard(chessBoardDto);
-    }
-
-    private void repeat(final ChessBoard chessBoard, final Consumer<ChessBoard> consumer) {
-        try {
-            consumer.accept(chessBoard);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            repeat(chessBoard, consumer);
-        }
     }
 }

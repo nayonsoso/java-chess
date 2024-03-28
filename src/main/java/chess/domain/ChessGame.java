@@ -29,4 +29,8 @@ public class ChessGame {
             throw new IllegalArgumentException("차례가 아닙니다.");
         }
     }
+
+    public ChessBoard getChessBoard() {
+        return this.chessBoard;
+    }
 }
