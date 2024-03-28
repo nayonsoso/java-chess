@@ -64,4 +64,9 @@ public abstract class Pawn extends Piece {
 
         return canAttackToward && canReachInSingleStep;
     }
+
+    @Override
+    public boolean isPawn() {
+        return true;
+    }
 }

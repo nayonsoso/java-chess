@@ -111,4 +111,12 @@ class BlackPawnTest {
             ).flatMap(Function.identity());
         }
     }
+
+    @DisplayName("폰인지 반환한다.")
+    @Test
+    void isPawn() {
+        boolean isPawn = BLACK_PAWN.isPawn();
+
+        assertThat(isPawn).isTrue();
+    }
 }

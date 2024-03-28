@@ -21,4 +21,9 @@ public class King extends SingleStepPiece {
         this.movementDirections.addAll(horizonAndVerticals);
         this.movementDirections.addAll(diagonals);
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }

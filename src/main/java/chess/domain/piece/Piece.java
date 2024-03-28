@@ -20,6 +20,14 @@ public abstract class Piece {
         return canMove(source, target);
     }
 
+    public boolean isKing() {
+        return false;
+    }
+
+    public boolean isPawn() {
+        return false;
+    }
+
     protected final boolean canMoveInDirection(final Position source, final Position target) {
         Direction direction = source.calculateDirection(target);
 
