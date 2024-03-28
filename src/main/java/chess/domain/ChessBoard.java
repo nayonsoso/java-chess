@@ -18,7 +18,7 @@ public class ChessBoard {
     public void move(final Position sourcePosition, final Position targetPosition) {
         validateCommonRule(sourcePosition, targetPosition);
         validateCanMove(sourcePosition, targetPosition);
-        validateReachedTarget(sourcePosition, targetPosition);
+        validateNoObstacleInRoute(sourcePosition, targetPosition);
 
         Piece sourcePiece = chessBoard.get(sourcePosition);
         chessBoard.put(targetPosition, sourcePiece);
@@ -28,7 +28,7 @@ public class ChessBoard {
     private void validateCommonRule(Position sourcePosition, Position targetPosition) {
         validateNotSourceItSelf(sourcePosition, targetPosition);
         validateSourcePositionNotEmpty(sourcePosition);
-        validateTargetNotAlly(sourcePosition, targetPosition);
+        validateTargetNotSameColor(sourcePosition, targetPosition);
     }
 
     private void validateNotSourceItSelf(Position sourcePosition, Position targetPosition) {
@@ -37,7 +37,7 @@ public class ChessBoard {
         }
     }
 
-    private void validateTargetNotAlly(Position source, Position target) {
+    private void validateTargetNotSameColor(Position source, Position target) {
         if (chessBoard.get(source).isSameColor(chessBoard.get(target))) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
@@ -72,12 +72,12 @@ public class ChessBoard {
         }
     }
 
-    private void validateReachedTarget(Position sourcePosition, Position targetPosition) {
+    private void validateNoObstacleInRoute(Position sourcePosition, Position targetPosition) {
         Direction direction = sourcePosition.calculateDirection(targetPosition);
         Position reachedPosition = moveUntilTargetOrMeetSomeThing(sourcePosition, targetPosition, direction);
 
         if (!reachedPosition.equals(targetPosition)) {
-            throw new IllegalArgumentException("선택한 기물은 해당 위치에 도달할 수 없습니다.");
+            throw new IllegalArgumentException("이동 경로에 다른 기물이 존재합니다.");
         }
     }
 
