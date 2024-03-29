@@ -22,7 +22,7 @@ class CommandTest {
     @DisplayName("star, move, end 명령인지를 반환한다.")
     @MethodSource("makeCommand")
     void checkCommand(CommandDto commandDto, boolean expectedIsStart, boolean expectedIsMove, boolean expectedIsEnd) {
-        Command command = Command.of(commandDto);
+        Command command = Command.from(commandDto);
 
         boolean actualIsStart = command.isStart();
         boolean actualIsMove = command.isMove();
@@ -37,16 +37,16 @@ class CommandTest {
 
     static Stream<Arguments> makeCommand() {
         return Stream.of(
-                Arguments.of(CommandDto.of("start"), true, false, false),
-                Arguments.of(CommandDto.of("move a1 a2"), false, true, false),
-                Arguments.of(CommandDto.of("end"), false, false, true));
+                Arguments.of(CommandDto.from("start"), true, false, false),
+                Arguments.of(CommandDto.from("move a1 a2"), false, true, false),
+                Arguments.of(CommandDto.from("end"), false, false, true));
     }
 
     @Test
     @DisplayName("이동 명령어의 경우, 시작 위치와 도착 위치를 반환한다.")
     void mapStart() {
-        CommandDto commandDto = CommandDto.of("move a1 a2");
-        Command command = Command.of(commandDto);
+        CommandDto commandDto = CommandDto.from("move a1 a2");
+        Command command = Command.from(commandDto);
 
         Position actualSourcePosition = command.getSourcePosition();
         Position actualTargetPosition = command.getTargetPosition();
@@ -63,17 +63,17 @@ class CommandTest {
     @DisplayName("명령어에 해당하는 인자의 갯수가 아니면 예외를 발생시킨다.")
     @MethodSource("makeWrongCommand")
     void validateCommandArgumentsSizeFail(CommandDto commandDto) {
-        assertThatCode(() -> Command.of(commandDto))
+        assertThatCode(() -> Command.from(commandDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("명령어에 맞는 인자의 갯수가 아닙니다.");
     }
 
     static Stream<CommandDto> makeWrongCommand() {
         return Stream.of(
-                CommandDto.of("start a1"),
-                CommandDto.of("end a2"),
-                CommandDto.of("move a1"),
-                CommandDto.of("move a1 a2 a3")
+                CommandDto.from("start a1"),
+                CommandDto.from("end a2"),
+                CommandDto.from("move a1"),
+                CommandDto.from("move a1 a2 a3")
         );
     }
 }

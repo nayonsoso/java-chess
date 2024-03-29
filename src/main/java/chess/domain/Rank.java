@@ -16,22 +16,22 @@ public enum Rank {
 
     private final int value;
 
-    Rank(int value) {
+    Rank(final int value) {
         this.value = value;
     }
 
-    public static Rank findByValue(int value) {
+    public static Rank findByValue(final int value) {
         return Arrays.stream(values())
                 .filter(rank -> rank.value == value)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("체스판 세로 범위를 넘어갔습니다."));
     }
 
-    public Rank moveByOffset(int offset) {
+    public Rank moveByOffset(final int offset) {
         return findByValue(this.value + offset);
     }
 
-    public int calculateDifference(Rank rank) {
+    public int calculateDifference(final Rank rank) {
         return this.ordinal() - rank.ordinal();
     }
 }

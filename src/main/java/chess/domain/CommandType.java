@@ -10,11 +10,11 @@ public enum CommandType {
 
     private final int argumentCount;
 
-    CommandType(int argumentCount) {
+    CommandType(final int argumentCount) {
         this.argumentCount = argumentCount;
     }
 
-    public boolean isArgumentCountSameAs(int argumentCount) {
+    public boolean isArgumentCountSameAs(final int argumentCount) {
         return this.argumentCount == argumentCount;
     }
 }

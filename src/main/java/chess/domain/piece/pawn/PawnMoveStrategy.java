@@ -44,7 +44,7 @@ public class PawnMoveStrategy implements MoveStrategy {
         return canAttackToward && canReachInSingleStep;
     }
 
-    private boolean canReachInSingleStep(Position source, Position target) {
+    private boolean canReachInSingleStep(final Position source, final Position target) {
         Direction direction = source.calculateDirection(target);
         Position positionAfterSingleStep = source.moveTowardDirection(direction);
 
@@ -59,7 +59,7 @@ public class PawnMoveStrategy implements MoveStrategy {
         return Rank.SEVEN;
     }
 
-    private boolean canReachInTwoStep(Position source, Position target) {
+    private boolean canReachInTwoStep(final Position source, final Position target) {
         Direction direction = source.calculateDirection(target);
         Position positionAfterSingleStep = source.moveTowardDirection(direction);
         if (positionAfterSingleStep.equals(target)) {

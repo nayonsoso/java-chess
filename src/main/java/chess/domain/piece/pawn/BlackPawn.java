@@ -10,9 +10,8 @@ import java.util.Set;
 public class BlackPawn extends Piece {
 
     public static final BlackPawn BLACK_PAWN = new BlackPawn(Color.BLACK);
-
-    public final Set<Direction> moveDirections = Set.of(Direction.DOWN);
-    public final Set<Direction> attackDirections = Set.of(Direction.LEFT_DOWN, Direction.RIGHT_DOWN);
+    private static final Set<Direction> MOVE_DIRECTIONS = Set.of(Direction.DOWN);
+    private static final Set<Direction> ATTACK_DIRECTIONS = Set.of(Direction.LEFT_DOWN, Direction.RIGHT_DOWN);
 
     private BlackPawn(final Color color) {
         super(PieceType.PAWN, color, new PawnMoveStrategy(color));
@@ -20,12 +19,12 @@ public class BlackPawn extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override
     public Set<Direction> getAttackDirections() {
-        return attackDirections;
+        return ATTACK_DIRECTIONS;
     }
 
     @Override

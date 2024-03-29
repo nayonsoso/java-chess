@@ -9,12 +9,12 @@ public class Command {
     private final CommandType commandType;
     private final List<Position> positions;
 
-    private Command(CommandType commandType, List<Position> positions) {
+    private Command(final CommandType commandType, final List<Position> positions) {
         this.commandType = commandType;
         this.positions = positions;
     }
 
-    public static Command of(CommandDto commandDto) {
+    public static Command from(final CommandDto commandDto) {
         CommandType commandType = commandDto.commandType();
         List<Position> arguments = commandDto.arguments();
         validateCommandArgumentsSize(commandType, arguments);
@@ -22,7 +22,7 @@ public class Command {
         return new Command(commandType, arguments);
     }
 
-    private static void validateCommandArgumentsSize(CommandType commandType, List<Position> arguments) {
+    private static void validateCommandArgumentsSize(final CommandType commandType, final List<Position> arguments) {
         if (!commandType.isArgumentCountSameAs(arguments.size())) {
             throw new IllegalArgumentException("명령어에 맞는 인자의 갯수가 아닙니다.");
         }

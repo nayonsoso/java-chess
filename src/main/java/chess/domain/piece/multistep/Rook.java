@@ -11,8 +11,7 @@ public class Rook extends Piece {
 
     public static final Rook BLACK_ROOK = new Rook(Color.BLACK);
     public static final Rook WHITE_ROOK = new Rook(Color.WHITE);
-
-    private final Set<Direction> moveDirections = Direction.getHorizonAndVerticals();
+    private static final Set<Direction> MOVE_DIRECTIONS = Direction.HORIZON_VERTICAL;
 
     private Rook(final Color color) {
         super(PieceType.ROOK, color, new MultiStepMoveStrategy());
@@ -20,7 +19,7 @@ public class Rook extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return this.moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override

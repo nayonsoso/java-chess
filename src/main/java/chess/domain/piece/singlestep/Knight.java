@@ -11,8 +11,7 @@ public class Knight extends Piece {
 
     public static final Knight BLACK_KNIGHT = new Knight(Color.BLACK);
     public static final Knight WHITE_KNIGHT = new Knight(Color.WHITE);
-
-    private final Set<Direction> moveDirections = Direction.getLShapes();
+    private static final Set<Direction> MOVE_DIRECTIONS = Direction.L_SHAPE;
 
     private Knight(final Color color) {
         super(PieceType.KNIGHT, color, new SingleStepMoveStrategy());
@@ -20,7 +19,7 @@ public class Knight extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override

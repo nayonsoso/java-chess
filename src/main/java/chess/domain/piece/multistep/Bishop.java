@@ -11,8 +11,7 @@ public class Bishop extends Piece {
 
     public static final Bishop BLACK_BISHOP = new Bishop(Color.BLACK);
     public static final Bishop WHITE_BISHOP = new Bishop(Color.WHITE);
-
-    private final Set<Direction> moveDirections = Direction.getDiagonals();
+    private static final Set<Direction> MOVE_DIRECTIONS = Direction.DIAGONAL;
 
     private Bishop(final Color color) {
         super(PieceType.BISHOP, color, new MultiStepMoveStrategy());
@@ -20,7 +19,7 @@ public class Bishop extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return this.moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override

@@ -14,7 +14,7 @@ class CommandDtoTest {
     @DisplayName("생성 테스트")
     @ValueSource(strings = {"start", "move a2 a3", "end"})
     void create(String command) {
-        assertThatCode(() -> CommandDto.of(command))
+        assertThatCode(() -> CommandDto.from(command))
                 .doesNotThrowAnyException();
     }
 
@@ -23,7 +23,7 @@ class CommandDtoTest {
     void validateCommandExpressionFail() {
         String input = "invalidCommand";
 
-        assertThatThrownBy(() -> CommandDto.of(input))
+        assertThatThrownBy(() -> CommandDto.from(input))
                 .isExactlyInstanceOf(IllegalArgumentException.class)
                 .hasMessage("start, move, status, end만 입력할 수 있습니다.");
     }
@@ -32,7 +32,7 @@ class CommandDtoTest {
     @DisplayName("올바르지 않은 형식의 위치이면 예외를 발생시킨다.")
     @ValueSource(strings = {"move a1 a0", "move a1 a9", "move a1 i1", "move a1 i8"})
     void validatePositionFormatFail(String input) {
-        assertThatCode(() -> CommandDto.of(input))
+        assertThatCode(() -> CommandDto.from(input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("올바르지 않은 형식의 위치 입력입니다.");
     }

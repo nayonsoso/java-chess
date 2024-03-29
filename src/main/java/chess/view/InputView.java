@@ -12,7 +12,7 @@ public class InputView {
         System.out.print("명령어를 입력하세요. > ");
         String rawInput = scanner.nextLine();
 
-        return CommandDto.of(rawInput);
+        return CommandDto.from(rawInput);
     }
 
     public CommandDto readCommandWithNoticingCurrentColor(Color color) {
@@ -24,6 +24,6 @@ public class InputView {
         }
         String rawInput = scanner.nextLine();
 
-        return CommandDto.of(rawInput);
+        return CommandDto.from(rawInput);
     }
 }

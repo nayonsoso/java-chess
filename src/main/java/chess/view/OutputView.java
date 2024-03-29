@@ -29,7 +29,7 @@ public class OutputView {
         System.out.printf("앞서고 있는 팀 : %s%n", scoreDto.winningColor());
     }
 
-    public void printGameEnd(Color currentRoundColor) {
+    public void printGameEnd(final Color currentRoundColor) {
         String winnerExpression = "";
         if (currentRoundColor.isWhite()) {
             winnerExpression = WHITE_WIN_EXPRESSION;

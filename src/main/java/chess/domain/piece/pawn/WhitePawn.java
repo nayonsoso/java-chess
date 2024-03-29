@@ -10,9 +10,8 @@ import java.util.Set;
 public class WhitePawn extends Piece {
 
     public static final WhitePawn WHITE_PAWN = new WhitePawn(Color.WHITE);
-
-    public final Set<Direction> moveDirections = Set.of(Direction.UP);
-    public final Set<Direction> attackDirections = Set.of(Direction.LEFT_UP, Direction.RIGHT_UP);
+    private static final Set<Direction> MOVE_DIRECTIONS = Set.of(Direction.UP);
+    private static final Set<Direction> ATTACK_DIRECTIONS = Set.of(Direction.LEFT_UP, Direction.RIGHT_UP);
 
 
     private WhitePawn(final Color color) {
@@ -21,12 +20,12 @@ public class WhitePawn extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override
     public Set<Direction> getAttackDirections() {
-        return attackDirections;
+        return ATTACK_DIRECTIONS;
     }
 
     @Override

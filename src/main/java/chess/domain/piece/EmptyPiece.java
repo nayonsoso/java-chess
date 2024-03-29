@@ -13,12 +13,12 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public boolean canMove(Position source, Position target) {
+    public boolean canMove(final Position source, final Position target) {
         return false;
     }
 
     @Override
-    public boolean canAttack(Position source, Position target) {
+    public boolean canAttack(final Position source, final Position target) {
         return false;
     }
 

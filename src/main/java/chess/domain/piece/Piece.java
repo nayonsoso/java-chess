@@ -44,15 +44,15 @@ public abstract class Piece {
         return this.color;
     }
 
-    public final boolean isSameColor(Piece piece) {
+    public final boolean isSameColor(final Piece piece) {
         return this.color == piece.color;
     }
 
-    public final boolean isSameColor(Color color) {
+    public final boolean isSameColor(final Color color) {
         return this.color == color;
     }
 
-    public final boolean isOppositeColor(Piece piece) {
+    public final boolean isOppositeColor(final Piece piece) {
         if (this.color.isBlack()) {
             return piece.color.isWhite();
         }
@@ -62,7 +62,7 @@ public abstract class Piece {
         return false;
     }
 
-    public final boolean isOppositeColor(Color color) {
+    public final boolean isOppositeColor(final Color color) {
         if (this.color.isBlack()) {
             return color.isWhite();
         }

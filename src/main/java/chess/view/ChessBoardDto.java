@@ -42,7 +42,7 @@ public record ChessBoardDto(String chessBoardExpression) {
             Map.entry(EMPTY_PIECE, ".")
     );
 
-    public static ChessBoardDto of(ChessBoard chessBoard) {
+    public static ChessBoardDto from(final ChessBoard chessBoard) {
         Map<Position, Piece> board = chessBoard.getBoard();
         List<String> pieceExpressions = board.values().stream()
                 .map(ChessBoardDto::toPieceExpression)

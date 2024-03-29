@@ -8,11 +8,11 @@ public class ChessGame {
     private final ChessBoard chessBoard;
     private Color currentRoundColor = Color.WHITE;
 
-    public ChessGame(ChessBoard chessBoard) {
+    public ChessGame(final ChessBoard chessBoard) {
         this.chessBoard = chessBoard;
     }
 
-    public MoveResult executeRound(Position sourcePosition, Position targetPosition) {
+    public MoveResult executeRound(final Position sourcePosition, final Position targetPosition) {
         validateRoundColor(sourcePosition);
         MoveResult moveResult = chessBoard.move(sourcePosition, targetPosition);
 
@@ -22,7 +22,7 @@ public class ChessGame {
         return moveResult;
     }
 
-    private void validateRoundColor(Position sourcePosition) {
+    private void validateRoundColor(final Position sourcePosition) {
         Piece sourcePiece = chessBoard.findPieceByPosition(sourcePosition);
         chessBoard.findPieceByPosition(sourcePosition);
         if (sourcePiece.isOppositeColor(this.currentRoundColor)) {
@@ -30,7 +30,7 @@ public class ChessGame {
         }
     }
 
-    public double calculateScore(Color color) {
+    public double calculateScore(final Color color) {
         return this.chessBoard.calculateScoreByColor(color);
     }
 

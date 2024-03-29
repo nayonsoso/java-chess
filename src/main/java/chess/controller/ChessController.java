@@ -68,7 +68,7 @@ public class ChessController {
         executeGameFlow(chessGame);
     }
 
-    private MoveResult executeMove(ChessGame chessGame, Command command) {
+    private MoveResult executeMove(final ChessGame chessGame, final Command command) {
         Position source = command.getSourcePosition();
         Position target = command.getTargetPosition();
         MoveResult moveResult = chessGame.executeRound(source, target);
@@ -77,7 +77,7 @@ public class ChessController {
         return moveResult;
     }
 
-    private void printMoveResult(ChessGame chessGame, MoveResult moveResult) {
+    private void printMoveResult(final ChessGame chessGame, final MoveResult moveResult) {
         if (moveResult.isEnd()) {
             outputView.printGameEnd(chessGame.getCurrentRoundColor());
         }
@@ -86,7 +86,7 @@ public class ChessController {
         }
     }
 
-    private void printScore(ChessGame chessGame) {
+    private void printScore(final ChessGame chessGame) {
         double whiteScore = chessGame.calculateScore(Color.WHITE);
         double blackScore = chessGame.calculateScore(Color.BLACK);
         ScoreDto scoreDto = ScoreDto.of(whiteScore, blackScore);
@@ -95,22 +95,22 @@ public class ChessController {
 
     private Command readCommand() {
         CommandDto commandDto = inputView.readCommand();
-        return Command.of(commandDto);
+        return Command.from(commandDto);
     }
 
-    private Command readCommandWithNoticingCurrentColor(Color color) {
+    private Command readCommandWithNoticingCurrentColor(final Color color) {
         CommandDto commandDto = inputView.readCommandWithNoticingCurrentColor(color);
-        return Command.of(commandDto);
+        return Command.from(commandDto);
     }
 
-    private void validateStartDuplicate(Command command) {
+    private void validateStartDuplicate(final Command command) {
         if (command.isStart()) {
             throw new IllegalArgumentException("게임 도중에는 start 명령어를 입력할 수 없습니다.");
         }
     }
 
-    private void printChessBoard(ChessBoard chessBoard) {
-        ChessBoardDto chessBoardDto = ChessBoardDto.of(chessBoard);
+    private void printChessBoard(final ChessBoard chessBoard) {
+        ChessBoardDto chessBoardDto = ChessBoardDto.from(chessBoard);
         outputView.printChessBoard(chessBoardDto);
     }
 }

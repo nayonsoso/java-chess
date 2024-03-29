@@ -6,7 +6,7 @@ public record ScoreDto(String whiteScore, String blackScore, String winningColor
     private static final String BLACK_WIN_EXPRESSION = "흑팀";
     private static final String TIE_EXPRESSION = "없음";
 
-    public static ScoreDto of(double whiteScore, double blackScore) {
+    public static ScoreDto of(final double whiteScore, final double blackScore) {
         String whiteScoreExpression = String.format("%.1f", whiteScore);
         String blackScoreExpression = String.format("%.1f", blackScore);
         String winningColor = getWinningColor(whiteScore, blackScore);
@@ -14,7 +14,7 @@ public record ScoreDto(String whiteScore, String blackScore, String winningColor
         return new ScoreDto(whiteScoreExpression, blackScoreExpression, winningColor);
     }
 
-    private static String getWinningColor(double whiteScore, double blackScore) {
+    private static String getWinningColor(final double whiteScore, final double blackScore) {
         if (whiteScore > blackScore) {
             return WHITE_WIN_EXPRESSION;
         }

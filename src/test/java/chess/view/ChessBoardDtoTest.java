@@ -13,7 +13,7 @@ class ChessBoardDtoTest {
     void toChessBoardExpression() {
         ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
 
-        ChessBoardDto chessBoardDto = ChessBoardDto.of(chessBoard);
+        ChessBoardDto chessBoardDto = ChessBoardDto.from(chessBoard);
         String actualExpression = chessBoardDto.chessBoardExpression();
         String expectedExpression =
                 "RNBQKBNR" + System.lineSeparator()

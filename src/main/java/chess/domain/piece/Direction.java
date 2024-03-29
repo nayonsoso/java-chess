@@ -26,6 +26,11 @@ public enum Direction {
     RIGHT_DOWN_DOWN(1, -2),
     ;
 
+    public static final Set<Direction> HORIZON_VERTICAL = Set.of(LEFT, RIGHT, UP, DOWN);
+    public static final Set<Direction> DIAGONAL = Set.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
+    public static final Set<Direction> HORIZON_VERTICAL_DIAGONAL = Set.of(LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
+    public static final Set<Direction> L_SHAPE = Set.of(LEFT_LEFT_UP, LEFT_LEFT_DOWN, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_UP_UP, RIGHT_UP_UP, LEFT_DOWN_DOWN, RIGHT_DOWN_DOWN);
+
     private final int x;
     private final int y;
 
@@ -49,28 +54,11 @@ public enum Direction {
         return currentRank.moveByOffset(this.y);
     }
 
-    private boolean isSameGradiant(int dx, int dy) {
+    private boolean isSameGradiant(final int dx, final int dy) {
         return (double) this.x / this.y == (double) dx / dy;
     }
 
-    private boolean isSameSign(int dx, int dy) {
+    private boolean isSameSign(final int dx, final int dy) {
         return this.x * dx >= 0 && this.y * dy >= 0;
-    }
-
-    public static Set<Direction> getHorizonAndVerticals() {
-        return Set.of(LEFT, RIGHT, UP, DOWN);
-    }
-
-    public static Set<Direction> getDiagonals() {
-        return Set.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
-    }
-
-    public static Set<Direction> getHorizonVerticalAndDiagonals() {
-        return Set.of(LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
-    }
-
-    public static Set<Direction> getLShapes() {
-        return Set.of(LEFT_LEFT_UP, LEFT_LEFT_DOWN, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN,
-                LEFT_UP_UP, RIGHT_UP_UP, LEFT_DOWN_DOWN, RIGHT_DOWN_DOWN);
     }
 }

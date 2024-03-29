@@ -11,8 +11,7 @@ public class King extends Piece {
 
     public static final King BLACK_KING = new King(Color.BLACK);
     public static final King WHITE_KING = new King(Color.WHITE);
-
-    private final Set<Direction> moveDirections = Direction.getHorizonVerticalAndDiagonals();
+    private static final Set<Direction> MOVE_DIRECTIONS = Direction.HORIZON_VERTICAL_DIAGONAL;
 
     private King(final Color color) {
         super(PieceType.KING, color, new SingleStepMoveStrategy());
@@ -20,7 +19,7 @@ public class King extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override

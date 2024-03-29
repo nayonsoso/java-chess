@@ -37,31 +37,31 @@ public class ChessBoard {
         validateNoObstacleInRoute(sourcePosition, targetPosition);
     }
 
-    private void validateCommonRule(Position sourcePosition, Position targetPosition) {
+    private void validateCommonRule(final Position sourcePosition, final Position targetPosition) {
         validateNotSourceItSelf(sourcePosition, targetPosition);
         validateSourcePositionNotEmpty(sourcePosition);
         validateTargetNotSameColor(sourcePosition, targetPosition);
     }
 
-    private void validateNotSourceItSelf(Position sourcePosition, Position targetPosition) {
+    private void validateNotSourceItSelf(final Position sourcePosition, final Position targetPosition) {
         if (sourcePosition.equals(targetPosition)) {
             throw new IllegalArgumentException("제자리로 움직일 수 없습니다.");
         }
     }
 
-    private void validateTargetNotSameColor(Position source, Position target) {
+    private void validateTargetNotSameColor(final Position source, final Position target) {
         if (chessBoard.get(source).isSameColor(chessBoard.get(target))) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
     }
 
-    private void validateSourcePositionNotEmpty(Position position) {
+    private void validateSourcePositionNotEmpty(final Position position) {
         if (chessBoard.get(position).equals(EMPTY_PIECE)) {
             throw new IllegalArgumentException("비어있는 곳에서는 기물을 움직일 수 없습니다.");
         }
     }
 
-    private void validateMoveOrAttack(Position sourcePosition, Position targetPosition) {
+    private void validateMoveOrAttack(final Position sourcePosition, final Position targetPosition) {
         Piece sourcePiece = chessBoard.get(sourcePosition);
         Piece targetPiece = chessBoard.get(targetPosition);
         if (sourcePiece.isOppositeColor(targetPiece)) {
@@ -75,7 +75,7 @@ public class ChessBoard {
         }
     }
 
-    private void validateCanAttack(Position sourcePosition, Position targetPosition) {
+    private void validateCanAttack(final Position sourcePosition, final Position targetPosition) {
         Piece sourcePiece = chessBoard.get(sourcePosition);
         boolean canAttack = sourcePiece.canAttack(sourcePosition, targetPosition);
 
@@ -84,7 +84,7 @@ public class ChessBoard {
         }
     }
 
-    private void validateNoObstacleInRoute(Position sourcePosition, Position targetPosition) {
+    private void validateNoObstacleInRoute(final Position sourcePosition, final Position targetPosition) {
         Direction direction = sourcePosition.calculateDirection(targetPosition);
         Position reachedPosition = moveUntilTargetOrMeetSomeThing(sourcePosition, targetPosition, direction);
 
@@ -93,7 +93,7 @@ public class ChessBoard {
         }
     }
 
-    private Position moveUntilTargetOrMeetSomeThing(Position sourcePosition, Position targetPosition, Direction direction) {
+    private Position moveUntilTargetOrMeetSomeThing(final Position sourcePosition, final Position targetPosition, Direction direction) {
         Position nextPosition = sourcePosition.moveTowardDirection(direction);
         while (!nextPosition.equals(targetPosition) &&
                 chessBoard.get(nextPosition) == EMPTY_PIECE) {
@@ -111,7 +111,7 @@ public class ChessBoard {
         return this.chessBoard;
     }
 
-    public double calculateScoreByColor(Color color) {
+    public double calculateScoreByColor(final Color color) {
         double totalScore = 0;
         for (File file : File.values()) {
             double fileScore = calculateScoreForFileAndColor(file, color);
@@ -122,7 +122,7 @@ public class ChessBoard {
         return totalScore;
     }
 
-    private double calculateDeductionForFileAndColor(File file, Color color) {
+    private double calculateDeductionForFileAndColor(final File file, final Color color) {
         List<Piece> piecesFoundByFileAndColor = findPiecesByFileAndColor(file, color);
         int pawnCount = (int) piecesFoundByFileAndColor.stream()
                 .filter(Piece::isPawn)
@@ -134,7 +134,7 @@ public class ChessBoard {
         return 0;
     }
 
-    private double calculateScoreForFileAndColor(File file, Color color) {
+    private double calculateScoreForFileAndColor(final File file, final Color color) {
         List<Piece> piecesFoundByFileAndColor = findPiecesByFileAndColor(file, color);
 
         return piecesFoundByFileAndColor.stream()
@@ -143,7 +143,7 @@ public class ChessBoard {
                 .sum();
     }
 
-    private List<Piece> findPiecesByFileAndColor(File file, Color color) {
+    private List<Piece> findPiecesByFileAndColor(final File file, final Color color) {
         return chessBoard.entrySet().stream()
                 .filter(entry -> entry.getKey().isAtFile(file) && entry.getValue().isSameColor(color))
                 .map(Map.Entry::getValue)

@@ -11,8 +11,7 @@ public class Queen extends Piece {
 
     public static final Queen BLACK_QUEEN = new Queen(Color.BLACK);
     public static final Queen WHITE_QUEEN = new Queen(Color.WHITE);
-
-    private final Set<Direction> moveDirections = Direction.getHorizonVerticalAndDiagonals();
+    private static final Set<Direction> MOVE_DIRECTIONS = Direction.HORIZON_VERTICAL_DIAGONAL;
 
     private Queen(final Color color) {
         super(PieceType.QUEEN, color, new MultiStepMoveStrategy());
@@ -20,7 +19,7 @@ public class Queen extends Piece {
 
     @Override
     public Set<Direction> getMoveDirections() {
-        return this.moveDirections;
+        return MOVE_DIRECTIONS;
     }
 
     @Override

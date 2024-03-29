@@ -18,7 +18,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     private static final String STATUS_EXPRESSION = "status";
     private static final Pattern POSITION_PATTERN = Pattern.compile("^[a-h][1-8]$");
 
-    public static CommandDto of(String rawInput) {
+    public static CommandDto from(final String rawInput) {
         List<String> parsedInput = Arrays.stream(rawInput.split(" ")).toList();
 
         CommandType commandType = computeCommandType(parsedInput);
@@ -27,7 +27,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         return new CommandDto(commandType, positions);
     }
 
-    private static CommandType computeCommandType(List<String> parsedInput) {
+    private static CommandType computeCommandType(final List<String> parsedInput) {
         String command = parsedInput.get(0);
         validateCommandExpression(command);
 
@@ -43,7 +43,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         }
     }
 
-    private static CommandType parseToCommandType(String rawInput) {
+    private static CommandType parseToCommandType(final String rawInput) {
         if (START_EXPRESSION.equals(rawInput)) {
             return CommandType.START;
         }
@@ -56,7 +56,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         return CommandType.END;
     }
 
-    private static List<Position> computePositions(List<String> parsedInput) {
+    private static List<Position> computePositions(final List<String> parsedInput) {
         List<String> arguments = parsedInput.subList(1, parsedInput.size());
         arguments.forEach(CommandDto::validatePositionFormat);
 
@@ -65,7 +65,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
                 .toList();
     }
 
-    private static void validatePositionFormat(String positionInput) {
+    private static void validatePositionFormat(final String positionInput) {
         Matcher matcher = POSITION_PATTERN.matcher(positionInput);
         boolean matches = matcher.matches();
 
@@ -74,7 +74,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         }
     }
 
-    private static Position parseToPosition(String rawInput) {
+    private static Position parseToPosition(final String rawInput) {
         int fileIdx = rawInput.substring(0, 1).charAt(0) - 'a';
         int rankIdx = Integer.parseInt(rawInput.substring(1, 2)) - 1;
         File file = File.findByValue(fileIdx);
