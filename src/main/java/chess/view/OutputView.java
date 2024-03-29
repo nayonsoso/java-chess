@@ -17,7 +17,7 @@ public class OutputView {
 
     public void printChessBoard(final ChessBoardDto chessBoardDto) {
         String chessBoardExpression = chessBoardDto.chessBoardExpression();
-        System.out.println(chessBoardExpression);
+        System.out.println("\n" + chessBoardExpression);
     }
 
     public void printErrorMessage(final String message) {

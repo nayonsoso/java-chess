@@ -9,4 +9,8 @@ public enum MoveResult {
     public boolean isEnd() {
         return this == GAME_END;
     }
+
+    public boolean isNotEnd() {
+        return !isEnd();
+    }
 }

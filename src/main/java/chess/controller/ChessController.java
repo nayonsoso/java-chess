@@ -18,57 +18,79 @@ public class ChessController {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
         ChessGame chessGame = new ChessGame(chessBoard);
         outputView.printCommandInformation();
-        Command command = startGameWithHandleError();
+        Command command = readGameLifeCycleCommandWithErrorHandling();
 
         if (command.isStart()) {
             printChessBoard(chessBoard);
-            startRoundWithHandleError(chessGame);
+            executeGameFlowWithErrorHandling(chessGame);
         }
     }
 
-    private Command startGameWithHandleError() {
+    private Command readGameLifeCycleCommandWithErrorHandling() {
         try {
-            return readStartOrEndCommand();
+            return readGameLifeCycleCommand();
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
-            return startGameWithHandleError();
+            return readGameLifeCycleCommandWithErrorHandling();
         }
     }
 
-    private void startRoundWithHandleError(final ChessGame chessGame) {
-        try {
-            startRound(chessGame);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            startRoundWithHandleError(chessGame);
-        }
-    }
-
-    private void startRound(final ChessGame chessGame) {
+    private Command readGameLifeCycleCommand() {
         Command command = readCommand();
-
-        while (command.isMove() || command.isStatus()) {
-            if (command.isMove()) {
-                Position source = command.getSourcePosition();
-                Position target = command.getTargetPosition();
-                MoveResult moveResult = chessGame.executeRound(source, target);
-                if (moveResult.isEnd()) {
-                    outputView.printGameEnd(chessGame.getCurrentRoundColor());
-                    break;
-                }
-
-                printChessBoard(chessGame.getChessBoard());
-            }
-            if (command.isStatus()) {
-                double whiteScore = chessGame.calculateScore(Color.WHITE);
-                double blackScore = chessGame.calculateScore(Color.BLACK);
-                ScoreDto scoreDto = ScoreDto.of(whiteScore, blackScore);
-                outputView.printEachScore(scoreDto);
-            }
-            command = readCommand();
+        if (!(command.isStart() || command.isEnd())) {
+            throw new IllegalArgumentException("start 또는 end만 입력할 수 있습니다.");
         }
+        return command;
+    }
 
+    private void executeGameFlowWithErrorHandling(final ChessGame chessGame) {
+        try {
+            executeGameFlow(chessGame);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            executeGameFlowWithErrorHandling(chessGame);
+        }
+    }
+
+    private void executeGameFlow(final ChessGame chessGame) {
+        Command command = readCommandWithNoticingCurrentColor(chessGame.getCurrentRoundColor());
         validateStartDuplicate(command);
+
+        if (command.isMove() && executeMove(chessGame, command).isEnd()) {
+            return;
+        }
+        if (command.isStatus()) {
+            printScore(chessGame);
+        }
+        if (command.isEnd()) {
+            return;
+        }
+        executeGameFlow(chessGame);
+    }
+
+    private MoveResult executeMove(ChessGame chessGame, Command command) {
+        Position source = command.getSourcePosition();
+        Position target = command.getTargetPosition();
+        MoveResult moveResult = chessGame.executeRound(source, target);
+        printMoveResult(chessGame, moveResult);
+
+        return moveResult;
+    }
+
+    private void printMoveResult(ChessGame chessGame, MoveResult moveResult) {
+        if (moveResult.isEnd()) {
+            outputView.printGameEnd(chessGame.getCurrentRoundColor());
+        }
+        if (moveResult.isNotEnd()) {
+            printChessBoard(chessGame.getChessBoard());
+        }
+    }
+
+    private void printScore(ChessGame chessGame) {
+        double whiteScore = chessGame.calculateScore(Color.WHITE);
+        double blackScore = chessGame.calculateScore(Color.BLACK);
+        ScoreDto scoreDto = ScoreDto.of(whiteScore, blackScore);
+        outputView.printEachScore(scoreDto);
     }
 
     private Command readCommand() {
@@ -76,13 +98,9 @@ public class ChessController {
         return Command.of(commandDto);
     }
 
-    private Command readStartOrEndCommand() {
-        Command command = readCommand();
-        if (!(command.isStart() || command.isEnd())) {
-            throw new IllegalArgumentException("start 또는 end만 입력할 수 있습니다.");
-        }
-
-        return command;
+    private Command readCommandWithNoticingCurrentColor(Color color) {
+        CommandDto commandDto = inputView.readCommandWithNoticingCurrentColor(color);
+        return Command.of(commandDto);
     }
 
     private void validateStartDuplicate(Command command) {
