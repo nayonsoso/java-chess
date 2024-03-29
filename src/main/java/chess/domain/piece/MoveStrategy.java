@@ -10,7 +10,7 @@ public interface MoveStrategy {
                     final Position sourcePosition,
                     final Position targetPosition);
 
-    boolean canAttack(final Set<Direction> movementDirections,
+    boolean canAttack(final Set<Direction> attackDirections,
                       final Position sourcePosition,
                       final Position targetPosition);
 }

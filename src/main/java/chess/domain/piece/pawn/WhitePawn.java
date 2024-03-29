@@ -13,7 +13,6 @@ public class WhitePawn extends Piece {
     private static final Set<Direction> MOVE_DIRECTIONS = Set.of(Direction.UP);
     private static final Set<Direction> ATTACK_DIRECTIONS = Set.of(Direction.LEFT_UP, Direction.RIGHT_UP);
 
-
     private WhitePawn(final Color color) {
         super(PieceType.PAWN, color, new PawnMoveStrategy(color));
     }

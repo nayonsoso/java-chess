@@ -20,10 +20,10 @@ public class SingleStepMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canAttack(final Set<Direction> movementDirections,
+    public boolean canAttack(final Set<Direction> attackDirections,
                              final Position sourcePosition,
                              final Position targetPosition) {
-        return canMove(movementDirections, sourcePosition, targetPosition);
+        return canMove(attackDirections, sourcePosition, targetPosition);
     }
 
     private boolean canReachInSingleStep(final Position sourcePosition, final Position targetPosition) {
