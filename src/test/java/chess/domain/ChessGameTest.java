@@ -1,5 +1,6 @@
 package chess.domain;
 
+import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -9,9 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
+import static chess.domain.piece.multistep.Bishop.BLACK_BISHOP;
 import static chess.domain.piece.multistep.Queen.WHITE_QUEEN;
+import static chess.domain.piece.multistep.Rook.BLACK_ROOK;
 import static chess.domain.piece.pawn.WhitePawn.WHITE_PAWN;
 import static chess.domain.piece.singlestep.King.BLACK_KING;
+import static chess.domain.piece.singlestep.Knight.WHITE_KNIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -97,6 +101,58 @@ public class ChessGameTest {
 
             assertThatCode(() -> chessGame.executeRound(blackSourcePosition, blackTargetPosition))
                     .doesNotThrowAnyException();
+        }
+    }
+
+    @Nested
+    @DisplayName("점수를 계산한다.")
+    class calculateScore {
+
+        @Test
+        @DisplayName("흰색 기물의 점수를 계산한다.")
+        void calculateWhiteScore() {
+            Position position1 = Position.of(File.A, Rank.ONE);
+            Position position2 = Position.of(File.B, Rank.ONE);
+            Map<Position, Piece> initialPositions = new HashMap<>();
+            initialPositions.put(position1, WHITE_PAWN);
+            initialPositions.put(position2, WHITE_KNIGHT);
+            ChessBoard chessBoard = new ChessBoard(initialPositions);
+
+            double whiteScore = chessBoard.calculateScoreByColor(Color.WHITE);
+
+            assertThat(whiteScore).isEqualTo(3.5);
+        }
+
+        @Test
+        @DisplayName("검정 기물의 점수를 계산한다.")
+        void calculateBlackScore() {
+            Position position1 = Position.of(File.A, Rank.ONE);
+            Position position2 = Position.of(File.B, Rank.ONE);
+            Map<Position, Piece> initialPositions = new HashMap<>();
+            initialPositions.put(position1, BLACK_ROOK);
+            initialPositions.put(position2, BLACK_BISHOP);
+            ChessBoard chessBoard = new ChessBoard(initialPositions);
+
+            double blackScore = chessBoard.calculateScoreByColor(Color.BLACK);
+
+            assertThat(blackScore).isEqualTo(8);
+        }
+
+        @Test
+        @DisplayName("폰이 세로 줄에 둘 이상 있는 경우의 점수를 계산한다.")
+        void calculateScoreWhenPawnsAreInSameFile() {
+            Position position1 = Position.of(File.A, Rank.ONE);
+            Position position2 = Position.of(File.A, Rank.TWO);
+            Position position3 = Position.of(File.A, Rank.THREE);
+            Map<Position, Piece> initialPositions = new HashMap<>();
+            initialPositions.put(position1, WHITE_PAWN);
+            initialPositions.put(position2, WHITE_PAWN);
+            initialPositions.put(position3, WHITE_PAWN);
+            ChessBoard chessBoard = new ChessBoard(initialPositions);
+
+            double blackScore = chessBoard.calculateScoreByColor(Color.WHITE);
+
+            assertThat(blackScore).isEqualTo(1.5);
         }
     }
 }

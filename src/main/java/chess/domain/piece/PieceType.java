@@ -7,7 +7,9 @@ public enum PieceType {
     ROOK(5),
     BISHOP(3),
     KNIGHT(2.5),
-    PAWN(1);
+    PAWN(1),
+    REPEATED_PAWN(-0.5),
+    ;
 
     private final double score;
 

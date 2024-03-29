@@ -31,7 +31,7 @@ public class ChessGame {
     }
 
     public double calculateScore(Color color) {
-        return this.chessBoard.calculateScore(color);
+        return this.chessBoard.calculateScoreByColor(color);
     }
 
     public ChessBoard getChessBoard() {

@@ -4,9 +4,11 @@ import chess.domain.piece.Color;
 import chess.domain.piece.Direction;
 import chess.domain.piece.Piece;
 
+import java.util.List;
 import java.util.Map;
 
 import static chess.domain.piece.EmptyPiece.EMPTY_PIECE;
+import static chess.domain.piece.PieceType.REPEATED_PAWN;
 
 public class ChessBoard {
 
@@ -109,11 +111,42 @@ public class ChessBoard {
         return this.chessBoard;
     }
 
-    public double calculateScore(Color color) {
-        return this.chessBoard.values().stream()
-                .filter(piece -> piece.isSameColor(color))
+    public double calculateScoreByColor(Color color) {
+        double totalScore = 0;
+        for (File file : File.values()) {
+            double fileScore = calculateScoreForFileAndColor(file, color);
+            double deduction = calculateDeductionForFileAndColor(file, color);
+            totalScore = totalScore + fileScore + deduction;
+        }
+
+        return totalScore;
+    }
+
+    private double calculateDeductionForFileAndColor(File file, Color color) {
+        List<Piece> piecesFoundByFileAndColor = findPiecesByFileAndColor(file, color);
+        int pawnCount = (int) piecesFoundByFileAndColor.stream()
+                .filter(Piece::isPawn)
+                .count();
+        if (pawnCount > 1) {
+            return pawnCount * REPEATED_PAWN.getScore();
+        }
+
+        return 0;
+    }
+
+    private double calculateScoreForFileAndColor(File file, Color color) {
+        List<Piece> piecesFoundByFileAndColor = findPiecesByFileAndColor(file, color);
+
+        return piecesFoundByFileAndColor.stream()
                 .map(Piece::getScore)
-                .mapToDouble(Double::doubleValue)
+                .mapToDouble(Double::valueOf)
                 .sum();
+    }
+
+    private List<Piece> findPiecesByFileAndColor(File file, Color color) {
+        return chessBoard.entrySet().stream()
+                .filter(entry -> entry.getKey().isAtFile(file) && entry.getValue().isSameColor(color))
+                .map(Map.Entry::getValue)
+                .toList();
     }
 }

@@ -60,6 +60,10 @@ public class Position {
         return Direction.find(dx, dy);
     }
 
+    public boolean isAtFile(File file) {
+        return this.file == file;
+    }
+
     public boolean isAtRank(Rank rank) {
         return this.rank == rank;
     }

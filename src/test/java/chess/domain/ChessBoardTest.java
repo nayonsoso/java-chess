@@ -278,7 +278,7 @@ class ChessBoardTest {
             initialPositions.put(obstaclePosition, WHITE_KNIGHT);
             ChessBoard chessBoard = new ChessBoard(initialPositions);
 
-            double whiteScore = chessBoard.calculateScore(Color.WHITE);
+            double whiteScore = chessBoard.calculateScoreByColor(Color.WHITE);
 
             assertThat(whiteScore).isEqualTo(3.5);
         }
@@ -286,16 +286,33 @@ class ChessBoardTest {
         @Test
         @DisplayName("검정 기물의 점수를 계산한다.")
         void calculateBlackScore() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position obstaclePosition = Position.of(File.B, Rank.ONE);
+            Position position1 = Position.of(File.A, Rank.ONE);
+            Position position2 = Position.of(File.B, Rank.ONE);
             Map<Position, Piece> initialPositions = new HashMap<>();
-            initialPositions.put(sourcePosition, BLACK_ROOK);
-            initialPositions.put(obstaclePosition, BLACK_BISHOP);
+            initialPositions.put(position1, BLACK_ROOK);
+            initialPositions.put(position2, BLACK_BISHOP);
             ChessBoard chessBoard = new ChessBoard(initialPositions);
 
-            double blackScore = chessBoard.calculateScore(Color.BLACK);
+            double blackScore = chessBoard.calculateScoreByColor(Color.BLACK);
 
             assertThat(blackScore).isEqualTo(8);
+        }
+
+        @Test
+        @DisplayName("폰이 같은 라인에 있을 때의 점수를 계산한다.")
+        void calculateScoreWhenPawnRepeatedInSameFile() {
+            Position position1 = Position.of(File.A, Rank.ONE);
+            Position position2 = Position.of(File.A, Rank.TWO);
+            Position position3 = Position.of(File.A, Rank.THREE);
+            Map<Position, Piece> initialPositions = new HashMap<>();
+            initialPositions.put(position1, WHITE_PAWN);
+            initialPositions.put(position2, WHITE_PAWN);
+            initialPositions.put(position3, WHITE_PAWN);
+            ChessBoard chessBoard = new ChessBoard(initialPositions);
+
+            double whiteScore = chessBoard.calculateScoreByColor(Color.WHITE);
+
+            assertThat(whiteScore).isEqualTo(1.5);
         }
     }
 }
