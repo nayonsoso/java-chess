@@ -21,9 +21,4 @@ public class Rook extends Piece {
     public Set<Direction> getMoveDirections() {
         return MOVE_DIRECTIONS;
     }
-
-    @Override
-    public Set<Direction> getAttackDirections() {
-        return getMoveDirections();
-    }
 }

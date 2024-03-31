@@ -23,11 +23,6 @@ public class King extends Piece {
     }
 
     @Override
-    public Set<Direction> getAttackDirections() {
-        return getMoveDirections();
-    }
-
-    @Override
     public boolean isKing() {
         return true;
     }

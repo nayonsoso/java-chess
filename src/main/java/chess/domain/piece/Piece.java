@@ -18,7 +18,9 @@ public abstract class Piece {
 
     public abstract Set<Direction> getMoveDirections();
 
-    public abstract Set<Direction> getAttackDirections();
+    public Set<Direction> getAttackDirections() {
+        return getMoveDirections();
+    }
 
     public boolean canMove(final Position source, final Position target) {
         return moveStrategy.canMove(getMoveDirections(), source, target);
