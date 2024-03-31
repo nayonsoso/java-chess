@@ -32,6 +32,6 @@ public enum File {
     }
 
     public int calculateDifference(final File file) {
-        return this.ordinal() - file.ordinal();
+        return this.value - file.value;
     }
 }

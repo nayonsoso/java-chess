@@ -32,6 +32,6 @@ public enum Rank {
     }
 
     public int calculateDifference(final Rank rank) {
-        return this.ordinal() - rank.ordinal();
+        return this.value - rank.value;
     }
 }
