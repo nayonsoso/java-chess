@@ -10,6 +10,7 @@ public class ChessController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    // 서비스 들어오기
 
     public ChessController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
@@ -19,13 +20,14 @@ public class ChessController {
     public void run() {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
         ChessGame chessGame = new ChessGame(chessBoard);
+        // 위의 두줄 게임 초기화로 서비스로 분리하기
         outputView.printCommandInformation();
         Command command = readStartCommand();
         printChessBoard(chessGame.getChessBoard());
 
         while (!command.matchesType(END)) {
             Color roundColor = chessGame.getCurrentRoundColor();
-            command = runRound(chessGame, roundColor);
+            command = runRound(chessGame, roundColor); // 이 라인 서비스 함수를 호출해서 실행하기 하기
         }
     }
 
@@ -64,6 +66,7 @@ public class ChessController {
             return command;
         }
         if (command.matchesType(MOVE) && executeMove(chessGame, command).isEnd()) {
+            // 여기에서 end이면 게임의 상태 바꿔줘야 함
             return Command.END_COMMAND;
         }
         if (command.matchesType(STATUS)) {
@@ -77,6 +80,7 @@ public class ChessController {
         Position source = command.getSourcePosition();
         Position target = command.getTargetPosition();
         MoveResult moveResult = chessGame.executeRound(source, target);
+        // 여기 위에 세개 라인은 무조건 서비스에 들어가야 함
         printMoveResult(chessGame, moveResult);
 
         return moveResult;
