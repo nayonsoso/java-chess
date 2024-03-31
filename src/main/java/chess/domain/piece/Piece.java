@@ -53,22 +53,10 @@ public abstract class Piece {
     }
 
     public final boolean isOppositeColor(final Piece piece) {
-        if (this.color.isBlack()) {
-            return piece.color.isWhite();
-        }
-        if (this.color.isWhite()) {
-            return piece.color.isBlack();
-        }
-        return false;
+        return isOppositeColor(piece.color);
     }
 
     public final boolean isOppositeColor(final Color color) {
-        if (this.color.isBlack()) {
-            return color.isWhite();
-        }
-        if (this.color.isWhite()) {
-            return color.isBlack();
-        }
-        return false;
+        return this.color.isOppositeColor(color);
     }
 }

@@ -14,6 +14,16 @@ public enum Color {
         return this == WHITE;
     }
 
+    public boolean isOppositeColor(Color color) {
+        if (color.isBlack()) {
+            return this.isWhite();
+        }
+        if (color.isWhite()) {
+            return this.isBlack();
+        }
+        return false;
+    }
+
     public Color getOppositeColor() {
         if (this.isWhite()) {
             return BLACK;
