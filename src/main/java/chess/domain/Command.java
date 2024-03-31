@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Command {
 
+    public static final Command END_COMMAND = new Command(CommandType.END, null, null);
+
     private final CommandType commandType;
     private final Position sourcePosition;
     private final Position targetPosition;
@@ -35,20 +37,8 @@ public class Command {
         }
     }
 
-    public boolean isStart() {
-        return this.commandType == CommandType.START;
-    }
-
-    public boolean isMove() {
-        return this.commandType == CommandType.MOVE;
-    }
-
-    public boolean isEnd() {
-        return this.commandType == CommandType.END;
-    }
-
-    public boolean isStatus() {
-        return this.commandType == CommandType.STATUS;
+    public boolean matchesType(CommandType commandType) {
+        return this.commandType == commandType;
     }
 
     public Position getSourcePosition() {

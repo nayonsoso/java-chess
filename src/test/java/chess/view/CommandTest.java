@@ -1,9 +1,6 @@
 package chess.view;
 
-import chess.domain.Command;
-import chess.domain.File;
-import chess.domain.Position;
-import chess.domain.Rank;
+import chess.domain.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,27 +16,32 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class CommandTest {
 
     @ParameterizedTest
-    @DisplayName("star, move, end 명령인지를 반환한다.")
+    @DisplayName("star, move, status, end 명령인지를 반환한다.")
     @MethodSource("makeCommand")
-    void checkCommand(CommandDto commandDto, boolean expectedIsStart, boolean expectedIsMove, boolean expectedIsEnd) {
+    void checkCommand(CommandDto commandDto, boolean expectedIsStart, boolean expectedIsMove,
+                      boolean expectedIsStatus, boolean expectedIsEnd) {
         Command command = Command.from(commandDto);
 
-        boolean actualIsStart = command.isStart();
-        boolean actualIsMove = command.isMove();
-        boolean actualIsEnd = command.isEnd();
+        boolean actualIsStart = command.matchesType(CommandType.START);
+        boolean actualIsMove = command.matchesType(CommandType.MOVE);
+        boolean actualIsStatus = command.matchesType(CommandType.STATUS);
+        boolean actualIsEnd = command.matchesType(CommandType.END);
 
         Assertions.assertAll(
                 () -> assertThat(actualIsStart).isEqualTo(expectedIsStart),
                 () -> assertThat(actualIsMove).isEqualTo(expectedIsMove),
+                () -> assertThat(actualIsStatus).isEqualTo(expectedIsStatus),
                 () -> assertThat(actualIsEnd).isEqualTo(expectedIsEnd)
         );
     }
 
     static Stream<Arguments> makeCommand() {
         return Stream.of(
-                Arguments.of(CommandDto.from("start"), true, false, false),
-                Arguments.of(CommandDto.from("move a1 a2"), false, true, false),
-                Arguments.of(CommandDto.from("end"), false, false, true));
+                Arguments.of(CommandDto.from("start"), true, false, false, false),
+                Arguments.of(CommandDto.from("move a1 a2"), false, true, false, false),
+                Arguments.of(CommandDto.from("status"), false, false, true, false),
+                Arguments.of(CommandDto.from("end"), false, false, false, true)
+        );
     }
 
     @Test
@@ -73,7 +75,8 @@ class CommandTest {
                 CommandDto.from("start a1"),
                 CommandDto.from("end a2"),
                 CommandDto.from("move a1"),
-                CommandDto.from("move a1 a2 a3")
+                CommandDto.from("move a1 a2 a3"),
+                CommandDto.from("status a1")
         );
     }
 }
