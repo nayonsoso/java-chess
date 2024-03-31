@@ -15,7 +15,7 @@ public class InputView {
         return CommandDto.from(rawInput);
     }
 
-    public CommandDto readCommandWithNoticingCurrentColor(Color color) {
+    public CommandDto readCommand(Color color) {
         if (color.isWhite()) {
             System.out.print("명령어를 입력하세요. (현재 차례 : 백팀) > ");
         }

@@ -15,57 +15,58 @@ public class ChessController {
     }
 
     public void run() {
+        ChessGame chessGame = initChessGame();
+        Command command = readStartCommand();
+        printChessBoard(chessGame.getChessBoard());
+
+        while (!(command.isEnd() || command.isMove() && executeMove(chessGame, command).isEnd())) {
+            printScore(chessGame);
+            Color roundColor = chessGame.getCurrentRoundColor();
+            command = readRunCommand(roundColor);
+        }
+    }
+
+    private ChessGame initChessGame() {
         final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
         ChessGame chessGame = new ChessGame(chessBoard);
         outputView.printCommandInformation();
-        Command command = readGameLifeCycleCommandWithErrorHandling();
 
-        if (command.isStart()) {
-            printChessBoard(chessBoard);
-            executeGameFlowWithErrorHandling(chessGame);
-        }
+        return chessGame;
     }
 
-    private Command readGameLifeCycleCommandWithErrorHandling() {
+    private Command readStartCommand() {
         try {
-            return readGameLifeCycleCommand();
+            CommandDto commandDto = inputView.readCommand();
+            Command command = Command.from(commandDto);
+            validateStartCommand(command);
+            return command;
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
-            return readGameLifeCycleCommandWithErrorHandling();
+            return readStartCommand();
         }
     }
 
-    private Command readGameLifeCycleCommand() {
-        Command command = readCommand();
-        if (!(command.isStart() || command.isEnd())) {
-            throw new IllegalArgumentException("start 또는 end만 입력할 수 있습니다.");
-        }
-        return command;
+    private void printChessBoard(final ChessBoard chessBoard) {
+        ChessBoardDto chessBoardDto = ChessBoardDto.from(chessBoard);
+        outputView.printChessBoard(chessBoardDto);
     }
 
-    private void executeGameFlowWithErrorHandling(final ChessGame chessGame) {
+    private void validateStartCommand(Command command) {
+        if (!(command.isStart())) {
+            throw new IllegalArgumentException("start만 입력할 수 있습니다.");
+        }
+    }
+
+    private Command readRunCommand(Color color) {
         try {
-            executeGameFlow(chessGame);
+            CommandDto commandDto = inputView.readCommand(color);
+            Command command = Command.from(commandDto);
+            validateStartDuplicate(command);
+            return command;
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
-            executeGameFlowWithErrorHandling(chessGame);
+            return readRunCommand(color);
         }
-    }
-
-    private void executeGameFlow(final ChessGame chessGame) {
-        Command command = readCommandWithNoticingCurrentColor(chessGame.getCurrentRoundColor());
-        validateStartDuplicate(command);
-
-        if (command.isMove() && executeMove(chessGame, command).isEnd()) {
-            return;
-        }
-        if (command.isStatus()) {
-            printScore(chessGame);
-        }
-        if (command.isEnd()) {
-            return;
-        }
-        executeGameFlow(chessGame);
     }
 
     private MoveResult executeMove(final ChessGame chessGame, final Command command) {
@@ -93,24 +94,9 @@ public class ChessController {
         outputView.printEachScore(scoreDto);
     }
 
-    private Command readCommand() {
-        CommandDto commandDto = inputView.readCommand();
-        return Command.from(commandDto);
-    }
-
-    private Command readCommandWithNoticingCurrentColor(final Color color) {
-        CommandDto commandDto = inputView.readCommandWithNoticingCurrentColor(color);
-        return Command.from(commandDto);
-    }
-
     private void validateStartDuplicate(final Command command) {
         if (command.isStart()) {
             throw new IllegalArgumentException("게임 도중에는 start 명령어를 입력할 수 없습니다.");
         }
-    }
-
-    private void printChessBoard(final ChessBoard chessBoard) {
-        ChessBoardDto chessBoardDto = ChessBoardDto.from(chessBoard);
-        outputView.printChessBoard(chessBoardDto);
     }
 }
