@@ -24,7 +24,6 @@ public class ChessGame {
 
     private void validateRoundColor(final Position sourcePosition) {
         Piece sourcePiece = chessBoard.findPieceByPosition(sourcePosition);
-        chessBoard.findPieceByPosition(sourcePosition);
         if (sourcePiece.isOppositeColor(this.currentRoundColor)) {
             throw new IllegalArgumentException("차례가 아닙니다.");
         }
