@@ -17,6 +17,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     private static final String MOVE_EXPRESSION = "move";
     private static final String STATUS_EXPRESSION = "status";
     private static final Pattern POSITION_PATTERN = Pattern.compile("^[a-h][1-8]$");
+    public static final int COMMAND_INDEX = 0;
 
     public static CommandDto from(final String rawInput) {
         List<String> parsedInput = Arrays.stream(rawInput.split(" ")).toList();
@@ -28,7 +29,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     }
 
     private static CommandType computeCommandType(final List<String> parsedInput) {
-        String command = parsedInput.get(0);
+        String command = parsedInput.get(COMMAND_INDEX);
         validateCommandExpression(command);
 
         return parseToCommandType(command);
