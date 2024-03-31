@@ -7,19 +7,23 @@ import java.util.List;
 public class Command {
 
     private final CommandType commandType;
-    private final List<Position> positions;
+    private final Position sourcePosition;
+    private final Position targetPosition;
 
-    private Command(final CommandType commandType, final List<Position> positions) {
+    private Command(final CommandType commandType, final Position sourcePosition, final Position targetPosition) {
         this.commandType = commandType;
-        this.positions = positions;
+        this.sourcePosition = sourcePosition;
+        this.targetPosition = targetPosition;
     }
 
     public static Command from(final CommandDto commandDto) {
         CommandType commandType = commandDto.commandType();
         List<Position> arguments = commandDto.arguments();
         validateCommandArgumentsSize(commandType, arguments);
+        Position sourcePosition = arguments.get(0);
+        Position targetPosition = arguments.get(1);
 
-        return new Command(commandType, arguments);
+        return new Command(commandType, sourcePosition, targetPosition);
     }
 
     private static void validateCommandArgumentsSize(final CommandType commandType, final List<Position> arguments) {
@@ -45,10 +49,10 @@ public class Command {
     }
 
     public Position getSourcePosition() {
-        return this.positions.get(0);
+        return this.sourcePosition;
     }
 
     public Position getTargetPosition() {
-        return this.positions.get(1);
+        return this.targetPosition;
     }
 }
