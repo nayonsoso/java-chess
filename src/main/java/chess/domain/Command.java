@@ -20,10 +20,13 @@ public class Command {
         CommandType commandType = commandDto.commandType();
         List<Position> arguments = commandDto.arguments();
         validateCommandArgumentsSize(commandType, arguments);
-        Position sourcePosition = arguments.get(0);
-        Position targetPosition = arguments.get(1);
+        if (commandType == CommandType.MOVE) {
+            Position sourcePosition = arguments.get(0);
+            Position targetPosition = arguments.get(1);
+            return new Command(commandType, sourcePosition, targetPosition);
+        }
 
-        return new Command(commandType, sourcePosition, targetPosition);
+        return new Command(commandType, null, null);
     }
 
     private static void validateCommandArgumentsSize(final CommandType commandType, final List<Position> arguments) {
