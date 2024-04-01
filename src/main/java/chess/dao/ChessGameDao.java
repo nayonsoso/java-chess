@@ -20,6 +20,13 @@ public class ChessGameDao {
         executeUpdateQuery(query, status);
     }
 
+    public void updateStatusType(int id, StatusType statusType) {
+        final var query = "UPDATE chess_game SET status = ? WHERE id = ?";
+        String status = EnumMapper.mapToString(statusType);
+
+        executeUpdateQuery(query, status, Integer.toString(id));
+    }
+
     public ResponseChessGameDto findRecentChessGame() {
         final var query = "SELECT * FROM chess_game ORDER BY id DESC LIMIT 1";
 

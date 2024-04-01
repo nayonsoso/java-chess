@@ -49,4 +49,16 @@ class ChessGameDaoTest {
         assertThatCode(chessGameDao::findRecentChessGameId)
                 .doesNotThrowAnyException();
     }
+
+    @DisplayName("게임의 상태를 변경한다.")
+    @Test
+    void updateStatusType() {
+        ChessGameDao chessGameDao = new ChessGameDao(connection);
+        int recentChessGameId = chessGameDao.findRecentChessGameId();
+
+        chessGameDao.updateStatusType(recentChessGameId, StatusType.END);
+
+        ResponseChessGameDto recentChessGame = chessGameDao.findRecentChessGame();
+        assertThat(recentChessGame.statusType()).isEqualTo(StatusType.END);
+    }
 }
