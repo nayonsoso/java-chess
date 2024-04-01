@@ -2,6 +2,7 @@ package chess.controller;
 
 import chess.domain.*;
 import chess.domain.piece.Color;
+import chess.service.ChessGameService;
 import chess.view.*;
 
 import static chess.domain.CommandType.*;
@@ -10,16 +11,17 @@ public class ChessController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final ChessGameService chessGameService;
 
-    public ChessController(final InputView inputView, final OutputView outputView) {
+    public ChessController(final InputView inputView, final OutputView outputView, final ChessGameService chessGameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.chessGameService = chessGameService;
     }
 
     public void run() {
-        final ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
-        ChessGame chessGame = new ChessGame(chessBoard);
         outputView.printCommandInformation();
+        ChessGame chessGame = chessGameService.getRecentChessGame();
         Command command = readStartCommand();
         printChessBoard(chessGame.getChessBoard());
 
@@ -64,6 +66,7 @@ public class ChessController {
             return command;
         }
         if (command.matchesType(MOVE) && executeMove(chessGame, command).isEnd()) {
+            chessGameService.endCurrentGame();
             return Command.END_COMMAND;
         }
         if (command.matchesType(STATUS)) {
@@ -77,6 +80,7 @@ public class ChessController {
         Position source = command.getSourcePosition();
         Position target = command.getTargetPosition();
         MoveResult moveResult = chessGame.executeRound(source, target);
+        chessGameService.addMovement(source, target);
         printMoveResult(chessGame, moveResult);
 
         return moveResult;

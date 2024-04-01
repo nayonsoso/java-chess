@@ -1,5 +1,9 @@
 package chess.dao;
 
+import chess.dao.dto.RequestMovementDto;
+import chess.domain.File;
+import chess.domain.Position;
+import chess.domain.Rank;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +37,6 @@ class MovementDaoTest {
     void findByChessGameIdOrderedByAsc() {
         ChessGameDao chessGameDao = new ChessGameDao(connection);
         MovementDao movementDao = new MovementDao(connection);
-
         int recentChessGameId = chessGameDao.findRecentChessGameId();
 
         if (recentChessGameId == 0) {
@@ -44,5 +47,17 @@ class MovementDaoTest {
             assertThatCode(() -> movementDao.findByChessGameIdOrderedByAsc(recentChessGameId))
                     .doesNotThrowAnyException();
         }
+    }
+
+    @DisplayName("이동을 기록한다.")
+    @Test
+    void addMovement() {
+        MovementDao movementDao = new MovementDao(connection);
+        Position source = Position.of(File.A, Rank.TWO);
+        Position target = Position.of(File.A, Rank.FOUR);
+        RequestMovementDto requestMovementDto = RequestMovementDto.of(source, target, 1);
+
+        assertThatCode(() -> movementDao.addMovement(requestMovementDto))
+                .doesNotThrowAnyException();
     }
 }

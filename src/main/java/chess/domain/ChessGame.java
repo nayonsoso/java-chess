@@ -12,6 +12,11 @@ public class ChessGame {
         this.chessBoard = chessBoard;
     }
 
+    public ChessGame(final ChessBoard chessBoard, final Color color) {
+        this.chessBoard = chessBoard;
+        this.currentRoundColor = color;
+    }
+
     public MoveResult executeRound(final Position sourcePosition, final Position targetPosition) {
         validateRoundColor(sourcePosition);
         MoveResult moveResult = chessBoard.move(sourcePosition, targetPosition);
