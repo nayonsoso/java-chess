@@ -67,4 +67,12 @@ public class Position {
     public boolean isAtRank(final Rank rank) {
         return this.rank == rank;
     }
+
+    public File getFile() {
+        return this.file;
+    }
+
+    public Rank getRank() {
+        return this.rank;
+    }
 }

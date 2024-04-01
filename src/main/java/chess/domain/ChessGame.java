@@ -6,10 +6,16 @@ import chess.domain.piece.Piece;
 public class ChessGame {
 
     private final ChessBoard chessBoard;
-    private Color currentRoundColor = Color.WHITE;
+    private Color currentRoundColor;
 
     public ChessGame(final ChessBoard chessBoard) {
         this.chessBoard = chessBoard;
+        this.currentRoundColor = Color.WHITE;
+    }
+
+    public ChessGame(final ChessBoard chessBoard, final Color currentRoundColor) {
+        this.chessBoard = chessBoard;
+        this.currentRoundColor = currentRoundColor;
     }
 
     public MoveResult executeRound(final Position sourcePosition, final Position targetPosition) {
