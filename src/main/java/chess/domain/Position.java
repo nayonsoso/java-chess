@@ -12,6 +12,7 @@ public class Position {
     private static final Map<String, Position> CACHE;
 
     private final File file;
+
     private final Rank rank;
 
     static {
@@ -66,5 +67,13 @@ public class Position {
 
     public boolean isAtRank(final Rank rank) {
         return this.rank == rank;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public Rank getRank() {
+        return rank;
     }
 }
