@@ -1,8 +1,6 @@
 package chess.domain.piece.pawn;
 
-import chess.domain.File;
 import chess.domain.Position;
-import chess.domain.Rank;
 import chess.fixture.SourceTargetPositions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,8 +25,8 @@ class BlackPawnTest {
         @Test
         @DisplayName("시작 위치에서 이동할 수 있는 위치이면 true를 반환한다.")
         void canMoveFromInitial() {
-            Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position targetPosition = Position.of(File.A, Rank.FIVE);
+            Position sourcePosition = Position.of("a7");
+            Position targetPosition = Position.of("a5");
 
             boolean result = BLACK_PAWN.canMove(sourcePosition, targetPosition);
             assertThat(result).isTrue();
@@ -37,8 +35,8 @@ class BlackPawnTest {
         @Test
         @DisplayName("이동할 수 있는 위치이면 true를 반환한다.")
         void canMove() {
-            Position sourcePosition = Position.of(File.A, Rank.FOUR);
-            Position targetPosition = Position.of(File.A, Rank.THREE);
+            Position sourcePosition = Position.of("a4");
+            Position targetPosition = Position.of("a3");
 
             boolean result = BLACK_PAWN.canMove(sourcePosition, targetPosition);
 
@@ -56,9 +54,9 @@ class BlackPawnTest {
 
         static Stream<Arguments> makeNotMovablePositions() {
             Stream<Arguments> verticalAndHorizonExceptDown = Stream.of(
-                    Arguments.of(Position.of(File.D, Rank.FOUR), Position.of(File.D, Rank.FIVE)),
-                    Arguments.of(Position.of(File.D, Rank.FOUR), Position.of(File.C, Rank.FOUR)),
-                    Arguments.of(Position.of(File.D, Rank.FOUR), Position.of(File.E, Rank.FOUR))
+                    Arguments.of(Position.of("d4"), Position.of("d5")),
+                    Arguments.of(Position.of("d4"), Position.of("c4")),
+                    Arguments.of(Position.of("d4"), Position.of("e4"))
             );
 
             return Stream.of(
@@ -76,9 +74,9 @@ class BlackPawnTest {
         @Test
         @DisplayName("공격할 수 있는 위치이면 true를 반환한다.")
         void canAttack() {
-            Position sourcePosition = Position.of(File.D, Rank.FOUR);
-            Position targetPosition1 = Position.of(File.C, Rank.THREE);
-            Position targetPosition2 = Position.of(File.E, Rank.THREE);
+            Position sourcePosition = Position.of("d4");
+            Position targetPosition1 = Position.of("c3");
+            Position targetPosition2 = Position.of("e3");
 
             boolean result1 = BLACK_PAWN.canAttack(sourcePosition, targetPosition1);
             boolean result2 = BLACK_PAWN.canAttack(sourcePosition, targetPosition2);
@@ -100,8 +98,8 @@ class BlackPawnTest {
 
         static Stream<Arguments> makeNotAttackablePositions() {
             Stream<Arguments> diagonalExceptDown = Stream.of(
-                    Arguments.of(Position.of(File.D, Rank.FOUR), Position.of(File.C, Rank.FIVE)),
-                    Arguments.of(Position.of(File.D, Rank.FOUR), Position.of(File.E, Rank.FIVE))
+                    Arguments.of(Position.of("d4"), Position.of("c5")),
+                    Arguments.of(Position.of("d4"), Position.of("e5"))
             );
 
             return Stream.of(

@@ -1,9 +1,7 @@
 package chess.view;
 
 import chess.domain.CommandType;
-import chess.domain.File;
 import chess.domain.Position;
-import chess.domain.Rank;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +60,7 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         arguments.forEach(CommandDto::validatePositionFormat);
 
         return arguments.stream()
-                .map(CommandDto::parseToPosition)
+                .map(Position::of)
                 .toList();
     }
 
@@ -73,14 +71,5 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
         if (!matches) {
             throw new IllegalArgumentException("올바르지 않은 형식의 위치 입력입니다.");
         }
-    }
-
-    private static Position parseToPosition(final String rawInput) {
-        char fileIdx = rawInput.substring(0, 1).charAt(0);
-        int rankIdx = Integer.parseInt(rawInput.substring(1, 2));
-        File file = File.from(fileIdx);
-        Rank rank = Rank.from(rankIdx);
-
-        return Position.of(file, rank);
     }
 }

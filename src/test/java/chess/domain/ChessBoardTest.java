@@ -30,8 +30,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("기물을 타켓 위치로 옮긴다.")
         void movePiece() {
-            Position sourcePosition = Position.of(File.A, Rank.TWO);
-            Position targetPosition = Position.of(File.A, Rank.THREE);
+            Position sourcePosition = Position.of("a2");
+            Position targetPosition = Position.of("a3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, WHITE_PAWN);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -46,8 +46,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("기물이 이동하면 기존 위치에는 기물이 존재하지 않게 된다.")
         void noPieceOnSourcePositionWhenPieceMoves() {
-            Position sourcePosition = Position.of(File.B, Rank.SEVEN);
-            Position targetPosition = Position.of(File.B, Rank.SIX);
+            Position sourcePosition = Position.of("b7");
+            Position targetPosition = Position.of("b6");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_PAWN);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -62,8 +62,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("타켓 위치에 적팀 기물이 존재하는 경우, 덮어씌운다")
         void kill() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position targetPosition = Position.of(File.A, Rank.TWO);
+            Position sourcePosition = Position.of("a1");
+            Position targetPosition = Position.of("a2");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_ROOK);
             initialPositions.put(targetPosition, WHITE_ROOK);
@@ -83,7 +83,7 @@ class ChessBoardTest {
         @DisplayName("제자리로 이동하려는 경우 예외가 발생한다.")
         @Test
         void validateNotSourceItSelf() {
-            Position sourcePosition = Position.of(File.B, Rank.TWO);
+            Position sourcePosition = Position.of("b2");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_PAWN);
             ChessBoard chessBoard = new ChessBoard(initialPositions);
@@ -96,8 +96,8 @@ class ChessBoardTest {
         @DisplayName("비어있는 칸에서 이동하려는 경우 예외가 발생한다.")
         @Test
         void validateSourcePositionNotEmpty() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position targetPosition = Position.of(File.A, Rank.TWO);
+            Position sourcePosition = Position.of("a1");
+            Position targetPosition = Position.of("a2");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, EMPTY_PIECE);
             initialPositions.put(targetPosition, BLACK_PAWN);
@@ -111,8 +111,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("이동하려는 지점에 같은 팀이 존재하는 경우 예외가 발생한다")
         void validateTargetNotSameColor() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position targetPosition = Position.of(File.A, Rank.TWO);
+            Position sourcePosition = Position.of("a1");
+            Position targetPosition = Position.of("a2");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_KING);
             initialPositions.put(targetPosition, BLACK_PAWN);
@@ -131,8 +131,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("선택한 기물이 이동할 수 없는 방향으로 이동인 경우 예외가 발생한다.")
         void invalidDirection() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position targetPosition = Position.of(File.C, Rank.THREE);
+            Position sourcePosition = Position.of("a1");
+            Position targetPosition = Position.of("c3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_ROOK);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -146,8 +146,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("기물이 타켓 위치까지 갈 수 없는 경우 예외가 발생한다.")
         void cannotReachTarget() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position targetPosition = Position.of(File.C, Rank.THREE);
+            Position sourcePosition = Position.of("a1");
+            Position targetPosition = Position.of("c3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_KING);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -166,9 +166,9 @@ class ChessBoardTest {
         @Test
         @DisplayName("폰은 최초의 이동에서 두칸을 전진할 수 있다.")
         void pawnCanMoveTwiceIfFirstMove() {
-            Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position middlePosition = Position.of(File.A, Rank.SIX);
-            Position targetPosition = Position.of(File.A, Rank.FIVE);
+            Position sourcePosition = Position.of("a7");
+            Position middlePosition = Position.of("a6");
+            Position targetPosition = Position.of("a5");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_PAWN);
             initialPositions.put(middlePosition, EMPTY_PIECE);
@@ -182,8 +182,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("폰은 적이 있다면, 대각선 앞으로 이동할 수 있다.")
         void pawnCanMoveDiagonalIfEnemyThere() {
-            Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position targetPosition = Position.of(File.B, Rank.SIX);
+            Position sourcePosition = Position.of("a7");
+            Position targetPosition = Position.of("b6");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_PAWN);
             initialPositions.put(targetPosition, WHITE_PAWN);
@@ -196,8 +196,8 @@ class ChessBoardTest {
         @DisplayName("폰이 시작 위치에 있지 않은데 두 칸을 이동하려 하는 경우 예외가 발생한다.")
         @Test
         void pawnCanNotMoveTwiceIfItIsNotOnStartPositions() {
-            Position sourcePosition = Position.of(File.A, Rank.THREE);
-            Position targetPosition = Position.of(File.A, Rank.FIVE);
+            Position sourcePosition = Position.of("a3");
+            Position targetPosition = Position.of("a5");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, WHITE_PAWN);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -211,8 +211,8 @@ class ChessBoardTest {
         @DisplayName("폰의 대각선에 적이 없음에도 대각선으로 이동하려 하면, 예외가 발생한다.")
         @Test
         void pawnCanNotMoveDiagonalIfThereIsNoEnemy() {
-            Position sourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position targetPosition = Position.of(File.B, Rank.SIX);
+            Position sourcePosition = Position.of("a7");
+            Position targetPosition = Position.of("b6");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_PAWN);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -231,9 +231,9 @@ class ChessBoardTest {
         @Test
         @DisplayName("이동 경로에 기물이 있는 경우 예외가 발생한다.")
         void obstacleExistOnRoute() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position obstaclePosition = Position.of(File.A, Rank.TWO);
-            Position targetPosition = Position.of(File.A, Rank.THREE);
+            Position sourcePosition = Position.of("a1");
+            Position obstaclePosition = Position.of("a2");
+            Position targetPosition = Position.of("a3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_ROOK);
             initialPositions.put(obstaclePosition, BLACK_PAWN);
@@ -249,9 +249,9 @@ class ChessBoardTest {
         @DisplayName("나이트는 기물을 넘어 이동할 수 있다.")
         void knightCanJumpOverPiece() {
 
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position obstaclePosition = Position.of(File.A, Rank.TWO);
-            Position targetPosition = Position.of(File.B, Rank.THREE);
+            Position sourcePosition = Position.of("a1");
+            Position obstaclePosition = Position.of("a2");
+            Position targetPosition = Position.of("b3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, BLACK_KNIGHT);
             initialPositions.put(obstaclePosition, BLACK_PAWN);
@@ -271,8 +271,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("흰색 기물의 점수를 계산한다.")
         void calculateWhiteScore() {
-            Position sourcePosition = Position.of(File.A, Rank.ONE);
-            Position obstaclePosition = Position.of(File.B, Rank.ONE);
+            Position sourcePosition = Position.of("a1");
+            Position obstaclePosition = Position.of("b1");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, WHITE_PAWN);
             initialPositions.put(obstaclePosition, WHITE_KNIGHT);
@@ -286,8 +286,8 @@ class ChessBoardTest {
         @Test
         @DisplayName("검정 기물의 점수를 계산한다.")
         void calculateBlackScore() {
-            Position position1 = Position.of(File.A, Rank.ONE);
-            Position position2 = Position.of(File.B, Rank.ONE);
+            Position position1 = Position.of("a1");
+            Position position2 = Position.of("b1");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(position1, BLACK_ROOK);
             initialPositions.put(position2, BLACK_BISHOP);
@@ -301,9 +301,9 @@ class ChessBoardTest {
         @Test
         @DisplayName("폰이 같은 라인에 있을 때의 점수를 계산한다.")
         void calculateScoreWhenPawnRepeatedInSameFile() {
-            Position position1 = Position.of(File.A, Rank.ONE);
-            Position position2 = Position.of(File.A, Rank.TWO);
-            Position position3 = Position.of(File.A, Rank.THREE);
+            Position position1 = Position.of("a1");
+            Position position2 = Position.of("a2");
+            Position position3 = Position.of("a3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(position1, WHITE_PAWN);
             initialPositions.put(position2, WHITE_PAWN);

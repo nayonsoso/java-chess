@@ -16,6 +16,7 @@ public record ResponseMovementDto(
                 EnumMapper.mapToEnum(File.class, sourceFile),
                 EnumMapper.mapToEnum(Rank.class, sourceRank)
         );
+
         Position targetPosition = Position.of(
                 EnumMapper.mapToEnum(File.class, targetFile),
                 EnumMapper.mapToEnum(Rank.class, targetRank)

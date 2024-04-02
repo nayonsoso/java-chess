@@ -28,8 +28,8 @@ public class ChessGameTest {
         @DisplayName("결과가 종료인 라운드를 진행한다.")
         @Test
         void executeEndRound() {
-            Position sourcePosition = Position.of(File.B, Rank.SEVEN);
-            Position targetPosition = Position.of(File.B, Rank.EIGHT);
+            Position sourcePosition = Position.of("b7");
+            Position targetPosition = Position.of("b8");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, WHITE_QUEEN);
             initialPositions.put(targetPosition, BLACK_KING);
@@ -44,8 +44,8 @@ public class ChessGameTest {
         @DisplayName("결과가 종료가 아닌 라운드를 진행한다.")
         @Test
         void executeNotEndRound() {
-            Position sourcePosition = Position.of(File.B, Rank.TWO);
-            Position targetPosition = Position.of(File.B, Rank.THREE);
+            Position sourcePosition = Position.of("b2");
+            Position targetPosition = Position.of("b3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(sourcePosition, WHITE_PAWN);
             initialPositions.put(targetPosition, EMPTY_PIECE);
@@ -68,8 +68,8 @@ public class ChessGameTest {
         void firstRoundIsForWhite() {
             ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
             ChessGame chessGame = new ChessGame(chessBoard);
-            Position whiteSourcePosition = Position.of(File.A, Rank.TWO);
-            Position whiteTargetPosition = Position.of(File.A, Rank.THREE);
+            Position whiteSourcePosition = Position.of("a2");
+            Position whiteTargetPosition = Position.of("a3");
 
             assertThatCode(() -> chessGame.executeRound(whiteSourcePosition, whiteTargetPosition))
                     .doesNotThrowAnyException();
@@ -80,8 +80,8 @@ public class ChessGameTest {
         void canNotExecuteRoundForNotAllowedColor() {
             ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
             ChessGame chessGame = new ChessGame(chessBoard);
-            Position blackSourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position blackTargetPosition = Position.of(File.A, Rank.SIX);
+            Position blackSourcePosition = Position.of("a7");
+            Position blackTargetPosition = Position.of("a6");
 
             assertThatCode(() -> chessGame.executeRound(blackSourcePosition, blackTargetPosition))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -93,10 +93,10 @@ public class ChessGameTest {
         void colorForRoundChangesAfterRound() {
             ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
             ChessGame chessGame = new ChessGame(chessBoard);
-            Position whiteSourcePosition = Position.of(File.A, Rank.TWO);
-            Position whiteTargetPosition = Position.of(File.A, Rank.THREE);
-            Position blackSourcePosition = Position.of(File.A, Rank.SEVEN);
-            Position blackTargetPosition = Position.of(File.A, Rank.SIX);
+            Position whiteSourcePosition = Position.of("a2");
+            Position whiteTargetPosition = Position.of("a3");
+            Position blackSourcePosition = Position.of("a7");
+            Position blackTargetPosition = Position.of("a6");
             chessGame.executeRound(whiteSourcePosition, whiteTargetPosition);
 
             assertThatCode(() -> chessGame.executeRound(blackSourcePosition, blackTargetPosition))
@@ -111,8 +111,8 @@ public class ChessGameTest {
         @Test
         @DisplayName("흰색 기물의 점수를 계산한다.")
         void calculateWhiteScore() {
-            Position position1 = Position.of(File.A, Rank.ONE);
-            Position position2 = Position.of(File.B, Rank.ONE);
+            Position position1 = Position.of("a1");
+            Position position2 = Position.of("b1");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(position1, WHITE_PAWN);
             initialPositions.put(position2, WHITE_KNIGHT);
@@ -126,8 +126,8 @@ public class ChessGameTest {
         @Test
         @DisplayName("검정 기물의 점수를 계산한다.")
         void calculateBlackScore() {
-            Position position1 = Position.of(File.A, Rank.ONE);
-            Position position2 = Position.of(File.B, Rank.ONE);
+            Position position1 = Position.of("a1");
+            Position position2 = Position.of("b1");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(position1, BLACK_ROOK);
             initialPositions.put(position2, BLACK_BISHOP);
@@ -141,9 +141,9 @@ public class ChessGameTest {
         @Test
         @DisplayName("폰이 세로 줄에 둘 이상 있는 경우의 점수를 계산한다.")
         void calculateScoreWhenPawnsAreInSameFile() {
-            Position position1 = Position.of(File.A, Rank.ONE);
-            Position position2 = Position.of(File.A, Rank.TWO);
-            Position position3 = Position.of(File.A, Rank.THREE);
+            Position position1 = Position.of("a1");
+            Position position2 = Position.of("a2");
+            Position position3 = Position.of("a3");
             Map<Position, Piece> initialPositions = new HashMap<>();
             initialPositions.put(position1, WHITE_PAWN);
             initialPositions.put(position2, WHITE_PAWN);

@@ -37,14 +37,14 @@ public class ChessBoardFactory {
 
     private static Map<Position, Piece> makeBlackPiecesExceptPawn() {
         Map<Position, Piece> chessBoard = new LinkedHashMap<>();
-        chessBoard.put(Position.of(File.A, Rank.EIGHT), BLACK_ROOK);
-        chessBoard.put(Position.of(File.B, Rank.EIGHT), BLACK_KNIGHT);
-        chessBoard.put(Position.of(File.C, Rank.EIGHT), BLACK_BISHOP);
-        chessBoard.put(Position.of(File.D, Rank.EIGHT), BLACK_QUEEN);
-        chessBoard.put(Position.of(File.E, Rank.EIGHT), BLACK_KING);
-        chessBoard.put(Position.of(File.F, Rank.EIGHT), BLACK_BISHOP);
-        chessBoard.put(Position.of(File.G, Rank.EIGHT), BLACK_KNIGHT);
-        chessBoard.put(Position.of(File.H, Rank.EIGHT), BLACK_ROOK);
+        chessBoard.put(Position.of("a8"), BLACK_ROOK);
+        chessBoard.put(Position.of("b8"), BLACK_KNIGHT);
+        chessBoard.put(Position.of("c8"), BLACK_BISHOP);
+        chessBoard.put(Position.of("d8"), BLACK_QUEEN);
+        chessBoard.put(Position.of("e8"), BLACK_KING);
+        chessBoard.put(Position.of("f8"), BLACK_BISHOP);
+        chessBoard.put(Position.of("g8"), BLACK_KNIGHT);
+        chessBoard.put(Position.of("h8"), BLACK_ROOK);
 
         return chessBoard;
     }
@@ -91,14 +91,14 @@ public class ChessBoardFactory {
 
     private static Map<Position, Piece> makeWhitePiecesExceptPawn() {
         Map<Position, Piece> chessBoard = new LinkedHashMap<>();
-        chessBoard.put(Position.of(File.A, Rank.ONE), WHITE_ROOK);
-        chessBoard.put(Position.of(File.B, Rank.ONE), WHITE_KNIGHT);
-        chessBoard.put(Position.of(File.C, Rank.ONE), WHITE_BISHOP);
-        chessBoard.put(Position.of(File.D, Rank.ONE), WHITE_QUEEN);
-        chessBoard.put(Position.of(File.E, Rank.ONE), WHITE_KING);
-        chessBoard.put(Position.of(File.F, Rank.ONE), WHITE_BISHOP);
-        chessBoard.put(Position.of(File.G, Rank.ONE), WHITE_KNIGHT);
-        chessBoard.put(Position.of(File.H, Rank.ONE), WHITE_ROOK);
+        chessBoard.put(Position.of("a1"), WHITE_ROOK);
+        chessBoard.put(Position.of("b1"), WHITE_KNIGHT);
+        chessBoard.put(Position.of("c1"), WHITE_BISHOP);
+        chessBoard.put(Position.of("d1"), WHITE_QUEEN);
+        chessBoard.put(Position.of("e1"), WHITE_KING);
+        chessBoard.put(Position.of("f1"), WHITE_BISHOP);
+        chessBoard.put(Position.of("g1"), WHITE_KNIGHT);
+        chessBoard.put(Position.of("h1"), WHITE_ROOK);
 
         return chessBoard;
     }

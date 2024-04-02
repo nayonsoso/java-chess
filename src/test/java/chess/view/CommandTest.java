@@ -1,6 +1,8 @@
 package chess.view;
 
-import chess.domain.*;
+import chess.domain.Command;
+import chess.domain.CommandType;
+import chess.domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,8 +54,8 @@ class CommandTest {
 
         Position actualSourcePosition = command.getSourcePosition();
         Position actualTargetPosition = command.getTargetPosition();
-        Position expectedSourcePosition = Position.of(File.A, Rank.ONE);
-        Position expectedTargetPosition = Position.of(File.A, Rank.TWO);
+        Position expectedSourcePosition = Position.of("a1");
+        Position expectedTargetPosition = Position.of("a2");
 
         Assertions.assertAll(
                 () -> assertThat(actualSourcePosition).isEqualTo(expectedSourcePosition),

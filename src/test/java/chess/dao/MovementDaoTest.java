@@ -1,9 +1,7 @@
 package chess.dao;
 
 import chess.dao.dto.RequestMovementDto;
-import chess.domain.File;
 import chess.domain.Position;
-import chess.domain.Rank;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,8 +51,8 @@ class MovementDaoTest {
     @Test
     void addMovement() {
         MovementDao movementDao = new MovementDao(connection);
-        Position source = Position.of(File.A, Rank.TWO);
-        Position target = Position.of(File.A, Rank.FOUR);
+        Position source = Position.of("a1");
+        Position target = Position.of("a4");
         RequestMovementDto requestMovementDto = RequestMovementDto.of(source, target, 1);
 
         assertThatCode(() -> movementDao.addMovement(requestMovementDto))

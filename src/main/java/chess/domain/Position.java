@@ -37,6 +37,19 @@ public class Position {
         this.rank = rank;
     }
 
+    public static Position of(final String input) {
+        char fileIdx = input.substring(0, 1).charAt(0);
+        int rankIdx = Integer.parseInt(input.substring(1, 2));
+        File file = File.from(fileIdx);
+        Rank rank = Rank.from(rankIdx);
+        Position position = CACHE.get(toKey(file, rank));
+        if (position == null) {
+            throw new IllegalArgumentException("범위를 벗어난 위치입니다.");
+        }
+
+        return position;
+    }
+
     public static Position of(final File file, final Rank rank) {
         Position position = CACHE.get(toKey(file, rank));
         if (position == null) {
@@ -49,14 +62,12 @@ public class Position {
     public Position moveTowardDirection(final Direction direction) {
         File fileAfterMove = direction.moveFile(this.file);
         Rank rankAfterMove = direction.moveRank(this.rank);
-        return Position.of(fileAfterMove, rankAfterMove);
+        return CACHE.get(toKey(fileAfterMove, rankAfterMove));
     }
 
     public Direction calculateDirection(final Position target) {
-        File targetFile = target.file;
-        Rank targetRank = target.rank;
-        int dx = targetFile.calculateDifference(this.file);
-        int dy = targetRank.calculateDifference(this.rank);
+        int dx = target.file.calculateDifference(this.file);
+        int dy = target.rank.calculateDifference(this.rank);
 
         return Direction.find(dx, dy);
     }

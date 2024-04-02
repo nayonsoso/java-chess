@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static chess.domain.piece.Direction.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PositionTest {
@@ -23,22 +24,22 @@ class PositionTest {
 
     static Stream<Arguments> getMovementResult() {
         return Stream.of(
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.UP, Position.of(File.D, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.DOWN, Position.of(File.D, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT, Position.of(File.C, Rank.FIVE)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT, Position.of(File.E, Rank.FIVE)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_UP, Position.of(File.C, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_DOWN, Position.of(File.C, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_UP, Position.of(File.E, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_DOWN, Position.of(File.E, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_LEFT_UP, Position.of(File.B, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_LEFT_DOWN, Position.of(File.B, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_RIGHT_UP, Position.of(File.F, Rank.SIX)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_RIGHT_DOWN, Position.of(File.F, Rank.FOUR)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_UP_UP, Position.of(File.C, Rank.SEVEN)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_UP_UP, Position.of(File.E, Rank.SEVEN)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.LEFT_DOWN_DOWN, Position.of(File.C, Rank.THREE)),
-                Arguments.of(Position.of(File.D, Rank.FIVE), Direction.RIGHT_DOWN_DOWN, Position.of(File.E, Rank.THREE))
+                Arguments.of(Position.of("d5"), UP, Position.of("d6")),
+                Arguments.of(Position.of("d5"), DOWN, Position.of("d4")),
+                Arguments.of(Position.of("d5"), LEFT, Position.of("c5")),
+                Arguments.of(Position.of("d5"), RIGHT, Position.of("e5")),
+                Arguments.of(Position.of("d5"), LEFT_UP, Position.of("c6")),
+                Arguments.of(Position.of("d5"), LEFT_DOWN, Position.of("c4")),
+                Arguments.of(Position.of("d5"), RIGHT_UP, Position.of("e6")),
+                Arguments.of(Position.of("d5"), RIGHT_DOWN, Position.of("e4")),
+                Arguments.of(Position.of("d5"), LEFT_LEFT_UP, Position.of("b6")),
+                Arguments.of(Position.of("d5"), LEFT_LEFT_DOWN, Position.of("b4")),
+                Arguments.of(Position.of("d5"), RIGHT_RIGHT_UP, Position.of("f6")),
+                Arguments.of(Position.of("d5"), RIGHT_RIGHT_DOWN, Position.of("f4")),
+                Arguments.of(Position.of("d5"), LEFT_UP_UP, Position.of("c7")),
+                Arguments.of(Position.of("d5"), RIGHT_UP_UP, Position.of("e7")),
+                Arguments.of(Position.of("d5"), LEFT_DOWN_DOWN, Position.of("c3")),
+                Arguments.of(Position.of("d5"), RIGHT_DOWN_DOWN, Position.of("e3"))
         );
     }
 }
