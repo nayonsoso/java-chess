@@ -1,6 +1,7 @@
 package chess.dao;
 
 import chess.dao.dto.ResponseChessGameDto;
+import chess.domain.GameStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ class ChessGameDaoTest {
         chessGameDao.saveNewChessGame();
 
         ResponseChessGameDto after = chessGameDao.findRecentChessGame();
-        assertThat(after.statusType()).isEqualTo(StatusType.CONTINUE);
+        assertThat(after.gameStatus()).isEqualTo(GameStatus.NOT_END);
     }
 
     @DisplayName("가장 최근의 게임 아이디를 가져온다.")
@@ -52,13 +53,13 @@ class ChessGameDaoTest {
 
     @DisplayName("게임의 상태를 변경한다.")
     @Test
-    void updateStatusType() {
+    void updateGameStatus() {
         ChessGameDao chessGameDao = new ChessGameDao(connection);
         int recentChessGameId = chessGameDao.findRecentChessGameId();
 
-        chessGameDao.updateStatusType(recentChessGameId, StatusType.END);
+        chessGameDao.updateGameStatus(recentChessGameId, GameStatus.END);
 
         ResponseChessGameDto recentChessGame = chessGameDao.findRecentChessGame();
-        assertThat(recentChessGame.statusType()).isEqualTo(StatusType.END);
+        assertThat(recentChessGame.gameStatus()).isEqualTo(GameStatus.END);
     }
 }

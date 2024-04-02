@@ -36,9 +36,9 @@ public class ChessGameTest {
             ChessBoard chessBoard = new ChessBoard(initialPositions);
             ChessGame chessGame = new ChessGame(chessBoard);
 
-            MoveResult moveResult = chessGame.executeRound(sourcePosition, targetPosition);
+            GameStatus gameStatus = chessGame.executeRound(sourcePosition, targetPosition);
 
-            assertThat(moveResult).isEqualTo(MoveResult.GAME_END);
+            assertThat(gameStatus).isEqualTo(GameStatus.END);
         }
 
         @DisplayName("결과가 종료가 아닌 라운드를 진행한다.")
@@ -52,9 +52,9 @@ public class ChessGameTest {
             ChessBoard chessBoard = new ChessBoard(initialPositions);
             ChessGame chessGame = new ChessGame(chessBoard);
 
-            MoveResult moveResult = chessGame.executeRound(sourcePosition, targetPosition);
+            GameStatus gameStatus = chessGame.executeRound(sourcePosition, targetPosition);
 
-            assertThat(moveResult).isEqualTo(MoveResult.GAME_NOT_END);
+            assertThat(gameStatus).isEqualTo(GameStatus.NOT_END);
         }
     }
 

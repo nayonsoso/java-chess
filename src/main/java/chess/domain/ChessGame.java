@@ -17,14 +17,14 @@ public class ChessGame {
         this.currentRoundColor = color;
     }
 
-    public MoveResult executeRound(final Position sourcePosition, final Position targetPosition) {
+    public GameStatus executeRound(final Position sourcePosition, final Position targetPosition) {
         validateRoundColor(sourcePosition);
-        MoveResult moveResult = chessBoard.move(sourcePosition, targetPosition);
+        GameStatus gameStatus = chessBoard.move(sourcePosition, targetPosition);
 
-        if (!moveResult.isEnd()) {
+        if (!gameStatus.isEnd()) {
             currentRoundColor = currentRoundColor.getOppositeColor();
         }
-        return moveResult;
+        return gameStatus;
     }
 
     private void validateRoundColor(final Position sourcePosition) {

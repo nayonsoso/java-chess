@@ -1,13 +1,13 @@
 package chess.domain;
 
-public enum MoveResult {
+public enum GameStatus {
 
-    GAME_END,
-    GAME_NOT_END,
+    END,
+    NOT_END,
     ;
 
     public boolean isEnd() {
-        return this == GAME_END;
+        return this == END;
     }
 
     public boolean isNotEnd() {

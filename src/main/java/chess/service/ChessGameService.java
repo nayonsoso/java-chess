@@ -2,14 +2,10 @@ package chess.service;
 
 import chess.dao.ChessGameDao;
 import chess.dao.MovementDao;
-import chess.dao.StatusType;
 import chess.dao.dto.RequestMovementDto;
 import chess.dao.dto.ResponseChessGameDto;
 import chess.dao.dto.ResponseMovementDto;
-import chess.domain.ChessBoard;
-import chess.domain.ChessBoardFactory;
-import chess.domain.ChessGame;
-import chess.domain.Position;
+import chess.domain.*;
 import chess.domain.piece.Color;
 
 import java.util.List;
@@ -28,7 +24,7 @@ public class ChessGameService {
         ResponseChessGameDto responseChessGameDto = chessGameDao.findRecentChessGame();
         ChessBoard chessBoard = ChessBoardFactory.makeChessBoard();
 
-        if (responseChessGameDto == null || responseChessGameDto.statusType().isEnd()) {
+        if (responseChessGameDto == null || responseChessGameDto.gameStatus().isEnd()) {
             chessGameDao.saveNewChessGame();
             return new ChessGame(chessBoard);
         }
@@ -59,6 +55,6 @@ public class ChessGameService {
 
     public void endCurrentGame() {
         int recentChessGameId = chessGameDao.findRecentChessGameId();
-        chessGameDao.updateStatusType(recentChessGameId, StatusType.END);
+        chessGameDao.updateGameStatus(recentChessGameId, GameStatus.NOT_END);
     }
 }

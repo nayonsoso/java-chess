@@ -18,7 +18,7 @@ public class ChessBoard {
         this.chessBoard = chessBoard;
     }
 
-    public MoveResult move(final Position sourcePosition, final Position targetPosition) {
+    public GameStatus move(final Position sourcePosition, final Position targetPosition) {
         validateMove(sourcePosition, targetPosition);
         Piece sourcePiece = chessBoard.get(sourcePosition);
         Piece targetPiece = chessBoard.get(targetPosition);
@@ -26,9 +26,9 @@ public class ChessBoard {
         chessBoard.put(sourcePosition, EMPTY_PIECE);
 
         if (targetPiece.isKing()) {
-            return MoveResult.GAME_END;
+            return GameStatus.END;
         }
-        return MoveResult.GAME_NOT_END;
+        return GameStatus.NOT_END;
     }
 
     private void validateMove(final Position sourcePosition, final Position targetPosition) {

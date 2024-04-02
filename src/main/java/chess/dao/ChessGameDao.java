@@ -1,6 +1,7 @@
 package chess.dao;
 
 import chess.dao.dto.ResponseChessGameDto;
+import chess.domain.GameStatus;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,12 +16,12 @@ public class ChessGameDao {
 
     public void saveNewChessGame() {
         final var query = "INSERT INTO chess_game(status) VALUES(?)";
-        String status = EnumMapper.mapToString(StatusType.CONTINUE);
+        String status = EnumMapper.mapToString(GameStatus.NOT_END);
 
         executeUpdateQuery(query, status);
     }
 
-    public void updateStatusType(int id, StatusType statusType) {
+    public void updateGameStatus(int id, GameStatus statusType) {
         final var query = "UPDATE chess_game SET status = ? WHERE id = ?";
         String status = EnumMapper.mapToString(statusType);
 

@@ -1,16 +1,16 @@
 package chess.dao.dto;
 
 import chess.dao.EnumMapper;
-import chess.dao.StatusType;
+import chess.domain.GameStatus;
 
 public record ResponseChessGameDto(
         int id,
-        StatusType statusType) {
+        GameStatus gameStatus) {
 
-    public static ResponseChessGameDto of(String id, String statusType) {
+    public static ResponseChessGameDto of(String id, String gameStatus) {
         int convertedId = Integer.parseInt(id);
-        StatusType convertedStatusType = EnumMapper.mapToEnum(StatusType.class, statusType);
+        GameStatus convertedGameStatus = EnumMapper.mapToEnum(GameStatus.class, gameStatus);
 
-        return new ResponseChessGameDto(convertedId, convertedStatusType);
+        return new ResponseChessGameDto(convertedId, convertedGameStatus);
     }
 }

@@ -76,21 +76,21 @@ public class ChessController {
         return command;
     }
 
-    private MoveResult executeMove(final ChessGame chessGame, final Command command) {
+    private GameStatus executeMove(final ChessGame chessGame, final Command command) {
         Position source = command.getSourcePosition();
         Position target = command.getTargetPosition();
-        MoveResult moveResult = chessGame.executeRound(source, target);
+        GameStatus gameStatus = chessGame.executeRound(source, target);
         chessGameService.addMovement(source, target);
-        printMoveResult(chessGame, moveResult);
+        printMoveResult(chessGame, gameStatus);
 
-        return moveResult;
+        return gameStatus;
     }
 
-    private void printMoveResult(final ChessGame chessGame, final MoveResult moveResult) {
-        if (moveResult.isEnd()) {
+    private void printMoveResult(final ChessGame chessGame, final GameStatus gameStatus) {
+        if (gameStatus.isEnd()) {
             outputView.printGameEnd(chessGame.getCurrentRoundColor());
         }
-        if (moveResult.isNotEnd()) {
+        if (gameStatus.isNotEnd()) {
             printChessBoard(chessGame.getChessBoard());
         }
     }
