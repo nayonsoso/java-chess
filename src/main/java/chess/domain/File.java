@@ -4,23 +4,23 @@ import java.util.Arrays;
 
 public enum File {
 
-    A(0),
-    B(1),
-    C(2),
-    D(3),
-    E(4),
-    F(5),
-    G(6),
-    H(7),
+    A('a'),
+    B('b'),
+    C('c'),
+    D('d'),
+    E('e'),
+    F('f'),
+    G('g'),
+    H('h'),
     ;
 
-    private final int value;
+    private final char value;
 
-    File(final int value) {
+    File(final char value) {
         this.value = value;
     }
 
-    public static File findByValue(final int value) {
+    public static File from(final char value) {
         return Arrays.stream(values())
                 .filter(file -> file.value == value)
                 .findFirst()
@@ -28,7 +28,9 @@ public enum File {
     }
 
     public File moveByOffset(final int offset) {
-        return findByValue(this.value + offset);
+        char changedValue = (char) (this.value + offset);
+
+        return from(changedValue);
     }
 
     public int calculateDifference(final File file) {

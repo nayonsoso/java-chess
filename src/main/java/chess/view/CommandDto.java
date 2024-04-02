@@ -76,10 +76,10 @@ public record CommandDto(CommandType commandType, List<Position> arguments) {
     }
 
     private static Position parseToPosition(final String rawInput) {
-        int fileIdx = rawInput.substring(0, 1).charAt(0) - 'a';
-        int rankIdx = Integer.parseInt(rawInput.substring(1, 2)) - 1;
-        File file = File.findByValue(fileIdx);
-        Rank rank = Rank.findByValue(rankIdx);
+        char fileIdx = rawInput.substring(0, 1).charAt(0);
+        int rankIdx = Integer.parseInt(rawInput.substring(1, 2));
+        File file = File.from(fileIdx);
+        Rank rank = Rank.from(rankIdx);
 
         return Position.of(file, rank);
     }

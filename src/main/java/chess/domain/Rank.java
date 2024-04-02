@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 public enum Rank {
 
-    ONE(0),
-    TWO(1),
-    THREE(2),
-    FOUR(3),
-    FIVE(4),
-    SIX(5),
-    SEVEN(6),
-    EIGHT(7),
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
     ;
 
     private final int value;
@@ -20,7 +20,7 @@ public enum Rank {
         this.value = value;
     }
 
-    public static Rank findByValue(final int value) {
+    public static Rank from(final int value) {
         return Arrays.stream(values())
                 .filter(rank -> rank.value == value)
                 .findFirst()
@@ -28,7 +28,7 @@ public enum Rank {
     }
 
     public Rank moveByOffset(final int offset) {
-        return findByValue(this.value + offset);
+        return from(this.value + offset);
     }
 
     public int calculateDifference(final Rank rank) {
