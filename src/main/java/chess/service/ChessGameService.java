@@ -44,13 +44,17 @@ public class ChessGameService {
         Position targetPosition = lastMovement.targetPosition();
         Color lastRoundColor = chessBoard.findPieceByPosition(targetPosition).getColor();
 
-        return new ChessGame(chessBoard, lastRoundColor.getOppositeColor());
+        return new ChessGame(chessBoard, lastRoundColor.getOppositeColor(), GameStatus.NOT_END);
     }
 
-    public void addMovement(final Position sourcePosition, final Position targetPosition) {
+    public ChessGame executeMove(final ChessGame chessGame, final Position sourcePosition, final Position targetPosition) {
+        ChessGame chessGameAfterMove = chessGame.executeRound(sourcePosition, targetPosition);
+
         int chessGameId = chessGameDao.findRecentChessGameId();
         RequestMovementDto requestMovementDto = RequestMovementDto.of(sourcePosition, targetPosition, chessGameId);
         movementDao.addMovement(requestMovementDto);
+
+        return chessGameAfterMove;
     }
 
     public void endCurrentGame() {

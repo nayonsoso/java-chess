@@ -6,25 +6,27 @@ import chess.domain.piece.Piece;
 public class ChessGame {
 
     private final ChessBoard chessBoard;
-    private Color currentRoundColor = Color.WHITE;
+    private final GameStatus gameStatus;
+    private final Color currentRoundColor;
 
     public ChessGame(final ChessBoard chessBoard) {
         this.chessBoard = chessBoard;
+        this.currentRoundColor = Color.WHITE;
+        this.gameStatus = GameStatus.NOT_END;
     }
 
-    public ChessGame(final ChessBoard chessBoard, final Color color) {
+    public ChessGame(final ChessBoard chessBoard, final Color color, final GameStatus gameStatus) {
         this.chessBoard = chessBoard;
         this.currentRoundColor = color;
+        this.gameStatus = gameStatus;
     }
 
-    public GameStatus executeRound(final Position sourcePosition, final Position targetPosition) {
+    public ChessGame executeRound(final Position sourcePosition, final Position targetPosition) {
         validateRoundColor(sourcePosition);
-        GameStatus gameStatus = chessBoard.move(sourcePosition, targetPosition);
+        GameStatus gameStatusAfterMove = chessBoard.move(sourcePosition, targetPosition);
+        Color nextRoundColor = currentRoundColor.getOppositeColor();
 
-        if (!gameStatus.isEnd()) {
-            currentRoundColor = currentRoundColor.getOppositeColor();
-        }
-        return gameStatus;
+        return new ChessGame(this.chessBoard, nextRoundColor, gameStatusAfterMove);
     }
 
     private void validateRoundColor(final Position sourcePosition) {
@@ -36,6 +38,10 @@ public class ChessGame {
 
     public double calculateScore(final Color color) {
         return this.chessBoard.calculateScoreByColor(color);
+    }
+
+    public boolean isEnd() {
+        return gameStatus.isEnd();
     }
 
     public ChessBoard getChessBoard() {

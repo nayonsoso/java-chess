@@ -25,4 +25,3 @@ public record ResponseMovementDto(
         return new ResponseMovementDto(sourcePosition, targetPosition, Integer.parseInt(chessGameId));
     }
 }
-

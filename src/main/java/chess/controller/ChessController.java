@@ -1,6 +1,9 @@
 package chess.controller;
 
-import chess.domain.*;
+import chess.domain.ChessBoard;
+import chess.domain.ChessGame;
+import chess.domain.Command;
+import chess.domain.Position;
 import chess.domain.piece.Color;
 import chess.service.ChessGameService;
 import chess.view.*;
@@ -76,21 +79,20 @@ public class ChessController {
         return command;
     }
 
-    private GameStatus executeMove(final ChessGame chessGame, final Command command) {
+    private ChessGame executeMove(final ChessGame chessGame, final Command command) {
         Position source = command.getSourcePosition();
         Position target = command.getTargetPosition();
-        GameStatus gameStatus = chessGame.executeRound(source, target);
-        chessGameService.addMovement(source, target);
-        printMoveResult(chessGame, gameStatus);
+        ChessGame newChessGame = chessGameService.executeMove(chessGame, source, target);
+        printMoveResult(newChessGame);
 
-        return gameStatus;
+        return newChessGame;
     }
 
-    private void printMoveResult(final ChessGame chessGame, final GameStatus gameStatus) {
-        if (gameStatus.isEnd()) {
+    private void printMoveResult(final ChessGame chessGame) {
+        if (chessGame.isEnd()) {
             outputView.printGameEnd(chessGame.getCurrentRoundColor());
         }
-        if (gameStatus.isNotEnd()) {
+        if (!chessGame.isEnd()) {
             printChessBoard(chessGame.getChessBoard());
         }
     }

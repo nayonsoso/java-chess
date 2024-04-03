@@ -36,9 +36,9 @@ public class ChessGameTest {
             ChessBoard chessBoard = new ChessBoard(initialPositions);
             ChessGame chessGame = new ChessGame(chessBoard);
 
-            GameStatus gameStatus = chessGame.executeRound(sourcePosition, targetPosition);
+            ChessGame chessGameAfterMove = chessGame.executeRound(sourcePosition, targetPosition);
 
-            assertThat(gameStatus).isEqualTo(GameStatus.END);
+            assertThat(chessGameAfterMove.isEnd()).isTrue();
         }
 
         @DisplayName("결과가 종료가 아닌 라운드를 진행한다.")
@@ -52,9 +52,9 @@ public class ChessGameTest {
             ChessBoard chessBoard = new ChessBoard(initialPositions);
             ChessGame chessGame = new ChessGame(chessBoard);
 
-            GameStatus gameStatus = chessGame.executeRound(sourcePosition, targetPosition);
+            ChessGame chessGameAfterMove = chessGame.executeRound(sourcePosition, targetPosition);
 
-            assertThat(gameStatus).isEqualTo(GameStatus.NOT_END);
+            assertThat(chessGameAfterMove.isEnd()).isFalse();
         }
     }
 
@@ -97,9 +97,9 @@ public class ChessGameTest {
             Position whiteTargetPosition = Position.of("a3");
             Position blackSourcePosition = Position.of("a7");
             Position blackTargetPosition = Position.of("a6");
-            chessGame.executeRound(whiteSourcePosition, whiteTargetPosition);
+            ChessGame NextChessGame = chessGame.executeRound(whiteSourcePosition, whiteTargetPosition);
 
-            assertThatCode(() -> chessGame.executeRound(blackSourcePosition, blackTargetPosition))
+            assertThatCode(() -> NextChessGame.executeRound(blackSourcePosition, blackTargetPosition))
                     .doesNotThrowAnyException();
         }
     }
