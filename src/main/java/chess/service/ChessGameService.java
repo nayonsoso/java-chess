@@ -48,13 +48,11 @@ public class ChessGameService {
     }
 
     public ChessGame executeMove(final ChessGame chessGame, final Position sourcePosition, final Position targetPosition) {
-        ChessGame chessGameAfterMove = chessGame.executeRound(sourcePosition, targetPosition);
-
         int chessGameId = chessGameDao.findRecentChessGameId();
         RequestMovementDto requestMovementDto = RequestMovementDto.of(sourcePosition, targetPosition, chessGameId);
         movementDao.addMovement(requestMovementDto);
 
-        return chessGameAfterMove;
+        return chessGame.executeRound(sourcePosition, targetPosition);
     }
 
     public void endCurrentGame() {
