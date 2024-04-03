@@ -8,43 +8,61 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChessGameDaoTest {
 
-    private Connection connection;
+    private final String url = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
 
     @BeforeEach
     void setUp() throws SQLException {
-        ChessDBConnectionManager connectionManager = new ChessDBConnectionManager();
-        connection = connectionManager.getConnection();
-        connection.setAutoCommit(false);
+        String createTable = "CREATE TABLE chess_game (id INT PRIMARY KEY AUTO_INCREMENT, status VARCHAR(50) NOT NULL);";
+        String insertData = "INSERT INTO chess_game (status) VALUES ('NOT_END')";
+
+        try (var connection = DriverManager.getConnection(url, "sa", "")) {
+            try (var statement = connection.createStatement()) {
+                statement.execute(createTable);
+                statement.execute(insertData);
+            }
+        }
     }
 
     @AfterEach
-    void closeConnection() throws SQLException {
-        connection.rollback();
-        connection.setAutoCommit(true);
-        connection.close();
+    void cleanUp() throws SQLException {
+        String dropTable = "DROP TABLE chess_game;";
+
+        try (var connection = DriverManager.getConnection(url, "sa", "")) {
+            try (var statement = connection.createStatement()) {
+                statement.execute(dropTable);
+            }
+        }
     }
 
     @DisplayName("새로운 게임을 저장한다.")
     @Test
-    void saveNewChessGame() {
+    void saveNewChessGame() throws SQLException {
+        Connection connection = DriverManager.getConnection(url, "sa", "");
         ChessGameDao chessGameDao = new ChessGameDao(connection);
+        ResponseChessGameDto before = chessGameDao.findRecentChessGame();
 
         chessGameDao.saveNewChessGame();
 
         ResponseChessGameDto after = chessGameDao.findRecentChessGame();
-        assertThat(after.gameStatus()).isEqualTo(GameStatus.NOT_END);
+        assertAll(
+                () -> assertThat(after.id()).isEqualTo(before.id() + 1),
+                () -> assertThat(after.gameStatus()).isEqualTo(GameStatus.NOT_END)
+        );
     }
 
     @DisplayName("가장 최근의 게임 아이디를 가져온다.")
     @Test
-    void findRecentChessGameId() {
+    void findRecentChessGameId() throws SQLException {
+        Connection connection = DriverManager.getConnection(url, "sa", "");
         ChessGameDao chessGameDao = new ChessGameDao(connection);
 
         assertThatCode(chessGameDao::findRecentChessGameId)
@@ -53,7 +71,8 @@ class ChessGameDaoTest {
 
     @DisplayName("게임의 상태를 변경한다.")
     @Test
-    void updateGameStatus() {
+    void updateGameStatus() throws SQLException {
+        Connection connection = DriverManager.getConnection(url, "sa", "");
         ChessGameDao chessGameDao = new ChessGameDao(connection);
         int recentChessGameId = chessGameDao.findRecentChessGameId();
 
